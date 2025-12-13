@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WikiPortraits Onboarding Wizard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="wizard-container">
+        <header class="wizard-header">
+            <div class="wizard-header__left">
+                <img src="/img/wikiportraits-logo.png" alt="WikiPortraits logo" class="wizard-header__logo">
+                <h1>WikiPortraits Onboarding Wizard</h1>
+            </div>
+            <button id="resetButton" class="reset-button" aria-label="Start over">Start Over</button>
+        </header>
+
+        <nav class="wizard-steps" id="stepIndicator" role="navigation" aria-label="Wizard steps">
+            <!-- Step indicators will be injected here by JavaScript -->
+        </nav>
+
+        <main class="wizard-content" id="wizardContent" role="main">
+            <!-- Step content will be injected here by JavaScript -->
+        </main>
+
+        <div class="wizard-buttons" id="wizardButtons">
+            <button id="backButton" class="btn btn-secondary" disabled>
+                <span aria-hidden="true">←</span> Back
+            </button>
+            <button id="nextButton" class="btn btn-primary">
+                Next <span aria-hidden="true">→</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="template-engine.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
