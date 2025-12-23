@@ -1,54 +1,22 @@
-# WikiPortraits Onboarding Wizard
+# WikiPortraits Tools
 
-A onboarding wizard for new WikiPortraits participants.
+Static tools for WikiPortraits contributors, deployed as a simple site served from this repo.
 
-## Structure
+## Apps
 
-- `index.html` - Main HTML file
-- `styles.css` - Main CSS stylesheet
-- `template-engine.js` - Simple custom templating engine
-- `script.js` - Main application logic
-- `templates/` - HTML templates for each step
-- `img/` - Images (logo, etc.)
+- **Home** (`/index.html`): landing page for tools.
+- **Onboarding Wizard** (`/onboard`): multi-step flow to onboard new contributors to Wikimedia Commons.
+- **Template Generator** (`/template-generator`): form-flow to help users create new WikiPortraits templates and categories.
 
-## Adding a New Step
+Shared UI lives under `shared/` (global styles + reusable components). Images and branding assets are in `img/`.
 
-1. Create a new template file in `templates/`:
-   ```html
-   <!-- templates/my-step.html -->
-   <h2 class="step-title">My Step Title</h2>
-   <div class="step-description">
-       <p>Description text</p>
-   </div>
-   ```
+## Local Development
 
-2. Add the step to `script.js`:
-   ```javascript
-   {
-       id: 'my-step',
-       title: 'My Step Title',
-       shortLabel: 'My Step',
-       template: 'my-step',
-       requiredTasks: ['task1', 'task2'],
-       shouldShow: () => true,
-       canProceed: () => isStepComplete('my-step')
-   }
-   ```
-
-3. If your step has interactive elements, add event listeners in `attachStepEventListeners()`:
-   ```javascript
-   case 'my-step':
-       attachMyStepListeners(container);
-       break;
-   ```
-
-## Development
-
-While this project is simply static HTML and JavaScript, viewing locally still requires spinning up an HTTP server.
+Everything is static, so any HTTP server works:
 
 ```bash
 # Python 3
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000` in your browser.
+Then open `http://localhost:8000`.

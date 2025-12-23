@@ -1,5 +1,11 @@
-const STORAGE_KEY = 'wikiportraits_wizard_state';
+const STORAGE_KEY = 'wikiportraits_onboard_state';
 const DOM = {};
+
+const getInitialState = () => ({
+    currentStep: 0,
+    userPath: null,
+    tasks: {}
+});
 
 const steps = [
     {
@@ -58,48 +64,33 @@ const steps = [
     }
 ];
 
-let state = {
-    currentStep: 0,
-    userPath: null, // 'new' or 'existing'
-    tasks: {},
-    customData: {}
+let state = getInitialState();
+
+const saveState = () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 };
 
-function saveState() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
-
-function loadState() {
+const loadState = () => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
         try {
             state = JSON.parse(saved);
         } catch (e) {
             console.error('Failed to load saved state:', e);
-            state = {
-                currentStep: 0,
-                userPath: null,
-                tasks: {},
-                customData: {}
-            };
+            state = getInitialState();
         }
     }
-}
+};
 
-function resetState() {
+const resetState = () => {
     if (confirm('Are you sure you want to start over? All progress will be lost.')) {
         localStorage.removeItem(STORAGE_KEY);
-        state = {
-            currentStep: 0,
-            userPath: null,
-            tasks: {},
-            customData: {}
-        };
+        state = getInitialState();
         init();
     }
-}
+};
 
-function setTask(taskId, value) {
+const setTask = (taskId, value) => {
     state.tasks[taskId] = value;
     saveState();
 
@@ -108,58 +99,41 @@ function setTask(taskId, value) {
         updateNavigationButtons();
         updateChecklistItemState(taskId, value);
     });
-}
+};
 
-function getTask(taskId) {
-    return state.tasks[taskId] || false;
-}
+const getTask = (taskId) => state.tasks[taskId] || false;
 
-function setCustomData(key, value) {
-    state.customData[key] = value;
-    saveState();
-}
-
-function getCustomData(key) {
-    return state.customData[key];
-}
-
-function isStepComplete(stepId) {
+const isStepComplete = (stepId) => {
     const step = steps.find(s => s.id === stepId);
     if (!step || !step.requiredTasks) return true;
-
     return step.requiredTasks.every(taskId => getTask(taskId));
-}
+};
 
-function getStepStatus(stepIndex) {
+const getStepStatus = (stepIndex) => {
     if (stepIndex < state.currentStep) {
         return isStepComplete(steps[stepIndex].id) ? 'completed' : 'visited';
     }
-    if (stepIndex === state.currentStep) {
-        return 'active';
+    return stepIndex === state.currentStep ? 'active' : 'pending';
+};
+
+const getVisibleSteps = () => steps.filter(step => step.shouldShow());
+
+const findNextVisibleStep = (fromIndex, direction = 1) => {
+    let index = fromIndex + direction;
+    while (index >= 0 && index < steps.length && !steps[index].shouldShow()) {
+        index += direction;
     }
-    return 'pending';
-}
+    return index >= 0 && index < steps.length ? index : null;
+};
 
-function getVisibleSteps() {
-    return steps.filter(step => step.shouldShow());
-}
-
-function goToStep(index) {
-    if (index < 0 || index >= steps.length) return;
-
-    // Skip to next visible step if current is hidden
-    while (index < steps.length && !steps[index].shouldShow()) {
-        index++;
-    }
-
-    if (index >= steps.length) return;
-
+const goToStep = (index) => {
+    if (index < 0 || index >= steps.length || !steps[index].shouldShow()) return;
     state.currentStep = index;
     saveState();
     updateUI();
-}
+};
 
-function nextStep() {
+const nextStep = () => {
     const currentStep = steps[state.currentStep];
 
     if (!currentStep.canProceed()) {
@@ -167,149 +141,124 @@ function nextStep() {
         if (!proceed) return;
     }
 
-    let nextIndex = state.currentStep + 1;
-    while (nextIndex < steps.length && !steps[nextIndex].shouldShow()) {
-        nextIndex++;
-    }
-
-    if (nextIndex < steps.length) {
+    const nextIndex = findNextVisibleStep(state.currentStep);
+    if (nextIndex !== null) {
         goToStep(nextIndex);
     }
-}
+};
 
-function prevStep() {
-    let prevIndex = state.currentStep - 1;
-    while (prevIndex >= 0 && !steps[prevIndex].shouldShow()) {
-        prevIndex--;
-    }
-
-    if (prevIndex >= 0) {
+const prevStep = () => {
+    const prevIndex = findNextVisibleStep(state.currentStep, -1);
+    if (prevIndex !== null) {
         goToStep(prevIndex);
     }
-}
+};
 
-function renderStepIndicator() {
+const createStepElement = (step, index, visibleSteps) => {
+    const stepEl = document.createElement('div');
+    const status = getStepStatus(index);
+    const isSkipped = !step.shouldShow();
+    const visibleIndex = visibleSteps.findIndex(s => s.id === step.id);
+    const stepNumber = visibleIndex >= 0 ? visibleIndex + 1 : index + 1;
+
+    stepEl.className = `onboard-step onboard-step--${status}`;
+    stepEl.classList.toggle('onboard-step--skipped', isSkipped);
+    stepEl.setAttribute('role', 'button');
+    stepEl.setAttribute('tabindex', isSkipped ? '-1' : '0');
+    stepEl.setAttribute('aria-label', `Step ${stepNumber}: ${step.shortLabel}${isSkipped ? ' (skipped)' : ''}`);
+
+    if (index <= state.currentStep && !isSkipped) {
+        const handleClick = () => goToStep(index);
+        stepEl.addEventListener('click', handleClick);
+        stepEl.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleClick();
+            }
+        });
+    }
+
+    const icon = document.createElement('div');
+    icon.className = 'onboard-step__icon';
+    icon.textContent = status === 'completed' ? '✓' : stepNumber;
+
+    const label = document.createElement('div');
+    label.className = 'onboard-step__label';
+    label.textContent = step.shortLabel;
+
+    stepEl.appendChild(icon);
+    stepEl.appendChild(label);
+    return stepEl;
+};
+
+const renderStepIndicator = () => {
     const container = DOM.stepIndicator;
-
-    // Clear existing content
     container.innerHTML = '';
 
     const fragment = document.createDocumentFragment();
     const visibleSteps = getVisibleSteps();
 
     steps.forEach((step, index) => {
-        const status = getStepStatus(index);
-        const isSkipped = !step.shouldShow();
-
-        const stepEl = document.createElement('div');
-        stepEl.className = `wizard-step wizard-step--${status}`;
-        if (isSkipped) {
-            stepEl.classList.add('wizard-step--skipped');
-        }
-        stepEl.setAttribute('role', 'button');
-        stepEl.setAttribute('tabindex', isSkipped ? '-1' : '0');
-
-        // Calculate visible step number
-        const visibleIndex = visibleSteps.findIndex(s => s.id === step.id);
-        const stepNumber = visibleIndex >= 0 ? visibleIndex + 1 : index + 1;
-
-        stepEl.setAttribute('aria-label', `Step ${stepNumber}: ${step.shortLabel}${isSkipped ? ' (skipped)' : ''}`);
-
-        if (index <= state.currentStep && !isSkipped) {
-            const handleClick = () => goToStep(index);
-            stepEl.addEventListener('click', handleClick);
-            stepEl.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleClick();
-                }
-            });
-        }
-
-        const icon = document.createElement('div');
-        icon.className = 'wizard-step__icon';
-        icon.textContent = status === 'completed' ? '✓' : stepNumber;
-
-        const label = document.createElement('div');
-        label.className = 'wizard-step__label';
-        label.textContent = step.shortLabel;
-
-        stepEl.appendChild(icon);
-        stepEl.appendChild(label);
-        fragment.appendChild(stepEl);
+        fragment.appendChild(createStepElement(step, index, visibleSteps));
     });
 
     container.appendChild(fragment);
-}
+};
 
-function renderButtons() {
-    const backBtn = DOM.backButton;
-    const nextBtn = DOM.nextButton;
-
-    backBtn.disabled = state.currentStep === 0;
+const updateNavigationButtons = () => {
+    DOM.backButton.disabled = state.currentStep === 0;
 
     if (state.currentStep === steps.length - 1) {
-        nextBtn.textContent = 'Finish';
-        nextBtn.disabled = true;
+        DOM.nextButton.textContent = 'Finish';
+        DOM.nextButton.disabled = true;
     } else {
-        nextBtn.innerHTML = 'Next <span aria-hidden="true">→</span>';
-        nextBtn.disabled = false;
+        DOM.nextButton.innerHTML = 'Next <span aria-hidden="true">→</span>';
+        DOM.nextButton.disabled = false;
     }
-}
+};
 
-function updateNavigationButtons() {
-    renderButtons();
-}
-
-function updateStepIndicator() {
+const updateStepIndicator = () => {
     const container = DOM.stepIndicator;
-    const stepElements = container.querySelectorAll('.wizard-step');
+    const stepElements = container.querySelectorAll('.onboard-step');
     const visibleSteps = getVisibleSteps();
 
     stepElements.forEach((stepEl, index) => {
         const step = steps[index];
         const status = getStepStatus(index);
         const isSkipped = !step.shouldShow();
+        const visibleIndex = visibleSteps.findIndex(s => s.id === step.id);
+        const stepNumber = visibleIndex >= 0 ? visibleIndex + 1 : index + 1;
 
-        stepEl.className = `wizard-step wizard-step--${status}`;
-        if (isSkipped) {
-            stepEl.classList.add('wizard-step--skipped');
-        }
+        stepEl.className = `onboard-step onboard-step--${status}`;
+        stepEl.classList.toggle('onboard-step--skipped', isSkipped);
 
-        const icon = stepEl.querySelector('.wizard-step__icon');
+        const icon = stepEl.querySelector('.onboard-step__icon');
         if (icon) {
-            // Calculate visible step number
-            const visibleIndex = visibleSteps.findIndex(s => s.id === step.id);
-            const stepNumber = visibleIndex >= 0 ? visibleIndex + 1 : index + 1;
-            icon.textContent = status === 'completed' ? '✓' : String(stepNumber);
+            icon.textContent = status === 'completed' ? '✓' : stepNumber;
         }
     });
-}
+};
 
-function updateChecklistItemState(taskId, checked) {
+const updateChecklistItemState = (taskId, checked) => {
     const checklistItem = document.querySelector(`.checklist-item[data-task-id="${taskId}"]`);
     if (checklistItem) {
-        if (checked) {
-            checklistItem.classList.add('completed');
-        } else {
-            checklistItem.classList.remove('completed');
-        }
+        checklistItem.classList.toggle('completed', checked);
     }
-}
+};
 
-function renderCurrentStep() {
-    const container = DOM.wizardContent;
+const renderCurrentStep = async () => {
+    const container = DOM.onboardContent;
     container.innerHTML = '';
 
     const currentStep = steps[state.currentStep];
     const stepContent = document.createElement('div');
     stepContent.className = 'step-content active';
 
-    renderStepTemplate(currentStep, stepContent);
+    await renderStepTemplate(currentStep, stepContent);
     container.appendChild(stepContent);
-}
+};
 
-async function renderStepTemplate(step, container) {
+const renderStepTemplate = async (step, container) => {
     try {
         const visibleSteps = getVisibleSteps();
         const templateData = {
@@ -320,36 +269,30 @@ async function renderStepTemplate(step, container) {
             completedTasks: Object.values(state.tasks).filter(Boolean).length
         };
 
-        const html = await templateEngine.loadAndRender(step.template, templateData);
+        const html = await templateEngine.loadAndRender(step.template, templateData, 'templates');
         container.innerHTML = html;
         attachStepEventListeners(step.id, container);
     } catch (error) {
         console.error('Error rendering step template:', error);
         container.innerHTML = '<p>Error loading step content. Please refresh the page.</p>';
     }
-}
+};
 
-function updateUI() {
+const updateUI = async () => {
     renderStepIndicator();
-    renderCurrentStep();
-    renderButtons();
-}
+    await renderCurrentStep();
+    updateNavigationButtons();
+};
 
-function attachStepEventListeners(stepId, container) {
-    switch (stepId) {
-        case 'welcome':
-            attachWelcomeListeners(container);
-            break;
-        case 'account':
-        case 'attribution':
-        case 'userpage':
-        case 'upload':
-            attachChecklistListeners(container);
-            break;
+const attachStepEventListeners = (stepId, container) => {
+    if (stepId === 'welcome') {
+        attachWelcomeListeners(container);
+    } else if (['account', 'attribution', 'userpage', 'upload'].includes(stepId)) {
+        attachChecklistListeners(container);
     }
-}
+};
 
-function attachWelcomeListeners(container) {
+const attachWelcomeListeners = (container) => {
     const pathNew = container.querySelector('#pathNew');
     const pathExisting = container.querySelector('#pathExisting');
 
@@ -389,9 +332,9 @@ function attachWelcomeListeners(container) {
 
     pathExisting.addEventListener('click', () => selectPath('existing'));
     pathExisting.addEventListener('keypress', (e) => handleKeyPress(e, 'existing'));
-}
+};
 
-function attachChecklistListeners(container) {
+const attachChecklistListeners = (container) => {
     const checkboxes = container.querySelectorAll('.checklist-item input[type="checkbox"]');
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', (e) => {
@@ -399,17 +342,17 @@ function attachChecklistListeners(container) {
             setTask(taskId, e.target.checked);
         });
     });
-}
+};
 
-function cacheDOMElements() {
+const cacheDOMElements = () => {
     DOM.stepIndicator = document.getElementById('stepIndicator');
-    DOM.wizardContent = document.getElementById('wizardContent');
+    DOM.onboardContent = document.getElementById('onboardContent');
     DOM.backButton = document.getElementById('backButton');
     DOM.nextButton = document.getElementById('nextButton');
     DOM.resetButton = document.getElementById('resetButton');
-}
+};
 
-function setupEventListeners() {
+const setupEventListeners = () => {
     DOM.backButton.addEventListener('click', prevStep);
     DOM.nextButton.addEventListener('click', nextStep);
     DOM.resetButton.addEventListener('click', resetState);
@@ -425,14 +368,14 @@ function setupEventListeners() {
             }
         }
     });
-}
+};
 
-function init() {
+const init = () => {
     cacheDOMElements();
     loadState();
     updateUI();
     setupEventListeners();
-}
+};
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

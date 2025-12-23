@@ -1,0 +1,104 @@
+/* Home Container */
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    flex: 1;
+}
+
+/* Header */
+.home-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.home-header h1 {
+    font-size: 2.5rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--text);
+}
+
+.home-header__subtitle {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Tools Grid */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Tool Card */
+.tool-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    text-align: center;
+}
+
+.tool-card__icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.tool-card__title {
+    font-size: 1.5rem;
+    margin: 0 0 1rem 0;
+    color: var(--text);
+}
+
+.tool-card__description {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    flex: 1;
+}
+
+/* About Section */
+.home-about {
+    background: white;
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+.home-about h2 {
+    font-size: 1.75rem;
+    margin: 0 0 1rem 0;
+    color: var(--text);
+}
+
+.home-about p {
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .home-header h1 {
+        font-size: 2rem;
+    }
+
+    .home-subtitle {
+        font-size: 1rem;
+    }
+
+    .tools-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .home-container {
+        padding: 1.5rem 1rem;
+    }
+}

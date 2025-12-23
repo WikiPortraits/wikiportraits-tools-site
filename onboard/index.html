@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WikiPortraits Onboarding Wizard</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../shared/styles.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div data-component="navigation" data-component-dir="../shared/components"></div>
+
+    <div class="page-container">
+        <header class="page-header page-header--split">
+            <h1>WikiPortraits Onboarding Wizard</h1>
+            <button id="resetButton" class="btn btn-outline btn-sm" aria-label="Start over">Start Over</button>
+        </header>
+
+        <nav class="onboard-steps" id="stepIndicator" role="navigation" aria-label="onboard steps">
+            <!-- Step indicators will be injected here by JavaScript -->
+        </nav>
+
+        <main class="page-content onboard-content" id="onboardContent" role="main">
+            <!-- Step content will be injected here by JavaScript -->
+        </main>
+
+        <div class="onboard-buttons" id="onboardButtons">
+            <button id="backButton" class="btn btn-secondary" disabled>
+                <span aria-hidden="true">←</span> Back
+            </button>
+            <button id="nextButton" class="btn btn-primary">
+                Next <span aria-hidden="true">→</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="../template-engine.js"></script>
+    <script>
+        templateEngine.loadComponents();
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>

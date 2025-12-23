@@ -1,0 +1,338 @@
+/* Step Indicator */
+.onboard-steps {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.25rem 1rem;
+    background: var(--background-light);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    gap: 0.375rem;
+}
+
+.onboard-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.375rem;
+    min-width: 80px;
+    cursor: pointer;
+}
+
+.onboard-step:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.onboard-step__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--border-light);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.onboard-step__label {
+    font-size: 0.75rem;
+    text-align: center;
+    color: var(--text-muted);
+    transition: color 0.2s;
+}
+
+.onboard-step--active .onboard-step__icon {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.1);
+}
+
+.onboard-step--active .onboard-step__label {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.onboard-step--completed .onboard-step__icon {
+    background: var(--success);
+    color: white;
+}
+
+.onboard-step--completed .onboard-step__label {
+    color: var(--success);
+}
+
+.onboard-step--visited .onboard-step__icon {
+    background: var(--warning);
+    color: white;
+}
+
+.onboard-step--visited .onboard-step__label {
+    color: var(--warning);
+}
+
+.onboard-step--skipped {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.onboard-step--skipped .onboard-step__icon {
+    background: var(--border-light);
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+.onboard-step--skipped.onboard-step--completed .onboard-step__icon {
+    background: var(--border-light);
+    color: var(--text-muted);
+}
+
+.onboard-step--skipped.onboard-step--completed .onboard-step__label {
+    color: var(--text-muted);
+}
+
+.onboard-step--skipped .onboard-step__label {
+    text-decoration: line-through;
+}
+
+/* Content */
+.onboard-content {
+    min-height: 300px;
+}
+
+.step-content {
+    animation: fadeIn 0.3s ease-in;
+}
+
+.step-content.active {
+    display: block;
+}
+
+.step-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0.75rem 0;
+}
+
+.step-description {
+    margin-bottom: 1rem;
+}
+
+.step-description p {
+    margin-bottom: 0.375rem;
+}
+
+/* Path Choice */
+.path-choice {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.path-option {
+    padding: 1rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-align: center;
+    background: white;
+    transition: border-color 0.2s, transform 0.2s, background 0.2s;
+}
+
+.path-option:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.path-option:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.path-option.selected {
+    border-color: var(--primary);
+    background: #e8f0fe;
+}
+
+.path-option__icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.375rem;
+}
+
+.path-option__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.375rem;
+}
+
+.path-option__description {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+/* Checklist */
+.checklist {
+    list-style: none;
+    margin: 1rem 0;
+    padding: 0;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 0.375rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: white;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.checklist-item:hover {
+    background: var(--background-light);
+}
+
+.checklist-item input {
+    width: 20px;
+    height: 20px;
+    margin: 2px 0.75rem 0 0;
+    cursor: pointer;
+}
+
+.checklist-item label {
+    cursor: pointer;
+    flex: 1;
+    transition: color 0.2s;
+}
+
+.checklist-item.completed {
+    background: var(--success-light);
+    border-color: var(--success);
+}
+
+.checklist-item.completed label {
+    color: var(--success);
+}
+
+/* Action Links */
+.action-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1.25rem 0;
+}
+
+.action-link::after {
+    content: "↗";
+    font-size: 1.25rem;
+    margin-left: 0.375rem;
+}
+
+/* Completion Summary */
+.completion-summary {
+    background: var(--success-light);
+    border: 2px solid var(--success);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.completion-summary__icon {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+}
+
+.completion-summary__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--success);
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.completion-summary__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 0.75rem;
+    background: white;
+    border-radius: var(--radius);
+}
+
+.stat-item__value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--success);
+}
+
+.stat-item__label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.next-steps {
+    margin-top: 1rem;
+}
+
+.next-steps__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+/* Navigation Buttons */
+.onboard-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.25rem;
+    border-top: 1px solid var(--border);
+    background: var(--background-light);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .onboard-steps {
+        padding: 0.75rem;
+    }
+
+    .onboard-step {
+        min-width: 60px;
+    }
+
+    .onboard-step__icon {
+        width: 32px;
+        height: 32px;
+        font-size: 0.875rem;
+    }
+
+    .step-title {
+        font-size: 1.5rem;
+    }
+
+    .path-choice {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .onboard-step__label {
+        display: none;
+    }
+
+    .onboard-steps {
+        justify-content: space-around;
+    }
+
+    .completion-summary__stats {
+        grid-template-columns: 1fr;
+    }
+}

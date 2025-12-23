@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WikiPortraits Template Generator</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../shared/styles.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div data-component="navigation" data-component-dir="../shared/components"></div>
+
+    <div class="page-container">
+        <header class="page-header page-header--centered">
+            <h1>Template Generator</h1>
+            <p>Guidance for creating WikiPortraits templates and categories for events we cover</p>
+        </header>
+
+        <main class="page-content">
+            <form id="templateForm" class="form-card">
+                <div class="form-section">
+                    <h2>Event Details</h2>
+
+                    <p>Wiki is case-sensitive, so please use proper capitalization when filling out this form.</p>
+
+                    <div class="form-group">
+                        <label for="eventYear" class="form-label">Year <span class="required">*</span></label>
+                        <input type="number" id="eventYear" class="form-control" min="1980" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventName" class="form-label">Event Name <span class="required">*</span></label>
+                        <input type="text" id="eventName" class="form-control"
+                            placeholder="e.g., New York Film Festival" required>
+                        <small class="form-help">The full name of the event</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventAbbreviation" class="form-label">Abbreviation (Optional)</label>
+                        <input type="text" id="eventAbbreviation" class="form-control" placeholder="e.g., NYFF">
+                        <small class="form-help">Common abbreviation for the event (used in template name, if
+                            provided)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="wikiArticle" class="form-label">Wikipedia Article (Optional)</label>
+                        <input type="text" id="wikiArticle" class="form-control"
+                            placeholder="e.g., New York Film Festival">
+                        <small class="form-help">The English Wikipedia article name for the event, if it exists</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accentColor" class="form-label">Accent Color <span class="required">*</span></label>
+                        <div class="color-input-group">
+                            <input type="color" id="accentColor" class="color-picker" value="#000000">
+                            <input type="text" id="accentColorText" class="form-control color-text" value="#000000"
+                                pattern="^#[0-9A-Fa-f]{6}$">
+                        </div>
+                        <small class="form-help">The brand color for this event</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Event Type <span class="required">*</span></label>
+                        <small class="form-help">
+                            Select all event types that apply (at least one required)
+                            <br>
+                            If none fit, please reach out to WikiPortraits organizers for help!
+                        </small>
+                        <div class="category-checkboxes">
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-academic" name="parentCategories"
+                                    value="WikiPortraits at academic conferences">
+                                <label for="cat-academic">🎓 Academic conferences</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-art" name="parentCategories"
+                                    value="WikiPortraits at art events">
+                                <label for="cat-art">🎨 Art events</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-civic" name="parentCategories"
+                                    value="WikiPortraits at civic events">
+                                <label for="cat-civic">🏛️ Civic events</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-comedy" name="parentCategories"
+                                    value="WikiPortraits at comedy shows">
+                                <label for="cat-comedy">😄 Comedy shows</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-conventions" name="parentCategories"
+                                    value="WikiPortraits at conventions">
+                                <label for="cat-conventions">🎪 Conventions</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-cultural" name="parentCategories"
+                                    value="WikiPortraits at cultural festivals">
+                                <label for="cat-cultural">🎭 Cultural festivals</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-film" name="parentCategories"
+                                    value="WikiPortraits at film events">
+                                <label for="cat-film">🎬 Film events</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-graduation" name="parentCategories"
+                                    value="WikiPortraits at graduation ceremonies">
+                                <label for="cat-graduation">🎓 Graduation ceremonies</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-indigenous" name="parentCategories"
+                                    value="WikiPortraits at indigenous events">
+                                <label for="cat-indigenous">🪶 Indigenous events</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-journalism" name="parentCategories"
+                                    value="WikiPortraits at journalism events">
+                                <label for="cat-journalism">📰 Journalism events</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-literature" name="parentCategories"
+                                    value="WikiPortraits at literature events">
+                                <label for="cat-literature">📚 Literature events</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-music" name="parentCategories"
+                                    value="WikiPortraits at music events">
+                                <label for="cat-music">🎵 Music events</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-pride" name="parentCategories"
+                                    value="WikiPortraits at pride events">
+                                <label for="cat-pride">🏳️‍🌈 Pride events</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-sporting" name="parentCategories"
+                                    value="WikiPortraits at sporting events">
+                                <label for="cat-sporting">⚽ Sporting events</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-technology" name="parentCategories"
+                                    value="WikiPortraits at technology events">
+                                <label for="cat-technology">💻 Technology events</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-ted" name="parentCategories"
+                                    value="WikiPortraits at TED and TEDx">
+                                <label for="cat-ted">💡 TED and TEDx</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-nobel" name="parentCategories"
+                                    value="WikiPortraits at the Nobel Prizes">
+                                <label for="cat-nobel">🏆 Nobel Prizes</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-vatican" name="parentCategories"
+                                    value="WikiPortraits at the Vatican">
+                                <label for="cat-vatican">⛪ Vatican</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-venice" name="parentCategories"
+                                    value="WikiPortraits at the Venice Biennale">
+                                <label for="cat-venice">🎨 Venice Biennale</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-theatrical" name="parentCategories"
+                                    value="WikiPortraits at theatrical shows and festivals">
+                                <label for="cat-theatrical">🎭 Theatrical shows and festivals</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="cat-wikimedia" name="parentCategories"
+                                    value="WikiPortraits at Wikimedia events">
+                                <label for="cat-wikimedia">📖 Wikimedia events</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Generate Templates</button>
+                    <button type="reset" class="btn btn-secondary">Reset Form</button>
+                </div>
+            </form>
+
+            <div id="outputSection" class="output-section" style="display: none;">
+                <div class="info-box">
+                    <h3>Next Steps</h3>
+                    <ol>
+                        <li>Make sure you're <a href="https://commons.wikimedia.org/wiki/Special:UserLogin"
+                                target="_blank" rel="noopener">logged in</a> to Wikimedia Commons</li>
+                        <li>Copy the template code and click "Create on Commons", pasting the code on the
+                            template-creation page</li>
+                        <li>Copy the category code and click "Create on Commons", pasting the code on the
+                            category-creation page</li>
+                        <li>The template and category will be ready to use on your WikiPortraits photos!</li>
+                    </ol>
+                </div>
+
+                <div class="card card--compact output-card">
+                    <h2>Template Code</h2>
+                    <div class="template-info">
+                        <div class="info-row">
+                            <span class="info-label">Template Name:</span>
+                            <code id="templateName" class="info-value"></code>
+                        </div>
+                        <div class="actions">
+                            <button id="copyTemplate" class="btn btn-sm btn-secondary">Copy Code</button>
+                            <a id="createTemplateLink" class="btn btn-sm btn-primary" target="_blank"
+                                rel="noopener">Create on Commons</a>
+                        </div>
+                    </div>
+                    <pre id="templateCode" class="code-block"></pre>
+                    <div class="info-box">
+                        <p><strong>💡 Using the Template:</strong> When uploading photos, add the template to the "Other
+                            information" section of the Upload Wizard to automatically tag and categorize your uploads.
+                        </p>
+                        <p>Template: <code id="templateExample"></code></p>
+                    </div>
+                </div>
+
+                <div class="card card--compact output-card">
+                    <h2>Category Code</h2>
+                    <div class="template-info">
+                        <div class="info-row">
+                            <span class="info-label">Category Name:</span>
+                            <code id="categoryName" class="info-value"></code>
+                        </div>
+                        <div class="actions">
+                            <button id="copyCategory" class="btn btn-sm btn-secondary">Copy Code</button>
+                            <a id="createCategoryLink" class="btn btn-sm btn-primary" target="_blank"
+                                rel="noopener">Create on Commons</a>
+                        </div>
+                    </div>
+                    <pre id="categoryCode" class="code-block"></pre>
+                    <div class="info-box">
+                        <p><strong>💡 Note:</strong>
+                            When uploading photos, you don't have to add this category if you add the above template,
+                            since the template will also add this category.
+                            However, you should still apply other general categories (e.g., subject's name, event name,
+                            location) as appropriate.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../template-engine.js"></script>
+    <script>
+        templateEngine.loadComponents();
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>

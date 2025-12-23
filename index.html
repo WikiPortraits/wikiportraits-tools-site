@@ -4,41 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WikiPortraits Onboarding Wizard</title>
+    <title>WikiPortraits Tools</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="shared/styles.css">
+    <link rel="stylesheet" href="home.css">
 </head>
 
 <body>
-    <div class="wizard-container">
-        <header class="wizard-header">
-            <div class="wizard-header__left">
-                <img src="/img/wikiportraits-logo.png" alt="WikiPortraits logo" class="wizard-header__logo">
-                <h1>WikiPortraits Onboarding Wizard</h1>
-            </div>
-            <button id="resetButton" class="reset-button" aria-label="Start over">Start Over</button>
+    <div data-component="navigation"></div>
+
+    <main class="home-container">
+        <header class="home-header">
+            <h1>WikiPortraits Tools</h1>
+            <p class="home-header__subtitle">A collection of tools to help you contribute to WikiPortraits</p>
         </header>
 
-        <nav class="wizard-steps" id="stepIndicator" role="navigation" aria-label="Wizard steps">
-            <!-- Step indicators will be injected here by JavaScript -->
-        </nav>
+        <section class="tools-grid">
+            <div class="tool-card">
+                <div class="tool-card__icon">🧙‍♂️</div>
+                <h2 class="tool-card__title">Onboarding Wizard</h2>
+                <p class="tool-card__description">
+                    Step-by-step guide to get you onboarded to Wikimedia Commons
+                    as a WikiPortraits contributor.
+                </p>
+                <a href="/onboard/index.html" class="btn btn-primary">Launch Wizard</a>
+            </div>
 
-        <main class="wizard-content" id="wizardContent" role="main">
-            <!-- Step content will be injected here by JavaScript -->
-        </main>
+            <div class="tool-card">
+                <div class="tool-card__icon">📝</div>
+                <h2 class="tool-card__title">Template Generator</h2>
+                <p class="tool-card__description">
+                    Generate templates and categories for events
+                    you are photographing with WikiPortraits.
+                </p>
+                <a href="/template-generator/index.html" class="btn btn-primary">Launch Generator</a>
+            </div>
+        </section>
 
-        <div class="wizard-buttons" id="wizardButtons">
-            <button id="backButton" class="btn btn-secondary" disabled>
-                <span aria-hidden="true">←</span> Back
-            </button>
-            <button id="nextButton" class="btn btn-primary">
-                Next <span aria-hidden="true">→</span>
-            </button>
-        </div>
-    </div>
+        <section class="home-about">
+            <h2>About WikiPortraits</h2>
+            <p>
+                WikiPortraits is a project dedicated to improving Wikipedia and other Wikimedia projects
+                by capturing freely-licensed photos of people and cultural events.
+                We help get Wikimedia photographers credentialed to events as press photographers,
+                provide guidance on uploading, and support new contributors.
+            </p>
+        </section>
+    </main>
 
     <script src="template-engine.js"></script>
-    <script src="script.js"></script>
+    <script>
+        templateEngine.loadComponents();
+    </script>
 </body>
 
 </html>

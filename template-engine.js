@@ -1,26 +1,31 @@
+// Takes shared components in the shared/components/ directory
+// and loads them into the document where indicated by
+// data-component attributes, or through direct calls to loadComponents().
+
 class TemplateEngine {
     constructor() {
         this.templateCache = {};
+        this.basePath = '';
     }
 
-    /**
-     * Load a template from a file
-     * @param {string} templateName - Name of the template file (without .html extension)
-     * @returns {Promise<string>} The template content
-     */
-    async loadTemplate(templateName) {
-        // Check cache first
-        if (this.templateCache[templateName]) {
-            return this.templateCache[templateName];
+    setBasePath(path) {
+        this.basePath = path;
+    }
+
+    async loadTemplate(templateName, directory = 'templates') {
+        const cacheKey = `${directory}/${templateName}`;
+
+        if (this.templateCache[cacheKey]) {
+            return this.templateCache[cacheKey];
         }
 
         try {
-            const response = await fetch(`templates/${templateName}.html`);
+            const response = await fetch(`${this.basePath}${directory}/${templateName}.html`);
             if (!response.ok) {
-                throw new Error(`Failed to load template: ${templateName}`);
+                throw new Error(`Failed to load template: ${templateName} from ${directory}`);
             }
             const template = await response.text();
-            this.templateCache[templateName] = template;
+            this.templateCache[cacheKey] = template;
             return template;
         } catch (error) {
             console.error('Template loading error:', error);
@@ -28,31 +33,17 @@ class TemplateEngine {
         }
     }
 
-    /**
-     * Render a template with data
-     * @param {string} template - The template string
-     * @param {object} data - Data object for interpolation
-     * @returns {string} Rendered HTML
-     */
     render(template, data = {}) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(template, 'text/html');
 
-        // Process conditional blocks (data-if)
         this.processConditionals(doc, data);
-
-        // Process variable interpolation (data-text, data-value)
         this.processVariables(doc, data);
-
-        // Process checklist items (data-checklist-item)
         this.processChecklistItems(doc, data);
 
         return doc.body.innerHTML;
     }
 
-    /**
-     * Process elements with data-if attribute (remove if condition is false)
-     */
     processConditionals(doc, data) {
         const conditionalElements = doc.querySelectorAll('[data-if]');
         conditionalElements.forEach(element => {
@@ -64,7 +55,6 @@ class TemplateEngine {
             }
         });
 
-        // Process data-class-if (add class if condition is true)
         const classCondElements = doc.querySelectorAll('[data-class-if]');
         classCondElements.forEach(element => {
             const value = element.getAttribute('data-class-if');
@@ -76,9 +66,6 @@ class TemplateEngine {
         });
     }
 
-    /**
-     * Process elements with data-text attribute
-     */
     processVariables(doc, data) {
         const textElements = doc.querySelectorAll('[data-text]');
         textElements.forEach(element => {
@@ -90,9 +77,6 @@ class TemplateEngine {
         });
     }
 
-    /**
-     * Process elements with data-checklist-item attribute
-     */
     processChecklistItems(doc, data) {
         const checklistItems = doc.querySelectorAll('[data-checklist-item]');
         checklistItems.forEach(element => {
@@ -100,7 +84,6 @@ class TemplateEngine {
             const label = element.getAttribute('data-label');
             const required = element.getAttribute('data-required') === 'true';
 
-            // Validate required attributes
             if (!taskId || !label) {
                 console.error('Checklist item missing required attributes:', element);
                 return;
@@ -111,13 +94,12 @@ class TemplateEngine {
             element.className = `checklist-item ${isChecked ? 'completed' : ''}`;
             element.setAttribute('data-task-id', taskId);
 
-            // Create elements safely without innerHTML
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.id = taskId;
             checkbox.setAttribute('aria-describedby', `${taskId}-label`);
             if (isChecked) {
-                checkbox.checked = true;
+                checkbox.setAttribute('checked', 'checked');
             }
 
             const labelElement = document.createElement('label');
@@ -131,7 +113,7 @@ class TemplateEngine {
                 labelElement.appendChild(requiredSpan);
             }
 
-            element.textContent = ''; // Clear existing content
+            element.textContent = '';
             element.appendChild(checkbox);
             element.appendChild(labelElement);
 
@@ -141,17 +123,35 @@ class TemplateEngine {
         });
     }
 
-    /**
-     * Load and render a template
-     * @param {string} templateName - Name of the template
-     * @param {object} data - Data for rendering
-     * @returns {Promise<string>} Rendered HTML
-     */
-    async loadAndRender(templateName, data = {}) {
-        const template = await this.loadTemplate(templateName);
+    async loadAndRender(templateName, data = {}, directory = 'templates') {
+        const template = await this.loadTemplate(templateName, directory);
         return this.render(template, data);
+    }
+
+    async loadComponents() {
+        const components = document.querySelectorAll('[data-component]');
+        const promises = Array.from(components).map(async (element) => {
+            const componentName = element.getAttribute('data-component');
+            const directory = element.getAttribute('data-component-dir') || 'shared/components';
+
+            try {
+                const savedBasePath = this.basePath;
+                this.basePath = '';
+                const html = await this.loadTemplate(componentName, directory);
+                this.basePath = savedBasePath;
+
+                element.innerHTML = html;
+                element.removeAttribute('data-component');
+                element.removeAttribute('data-component-dir');
+            } catch (error) {
+                console.error(`Failed to load component: ${componentName}`, error);
+            }
+        });
+
+        await Promise.all(promises);
     }
 }
 
-// Export for use in other files
-const templateEngine = new TemplateEngine();
+if (!window.templateEngine) {
+    window.templateEngine = new TemplateEngine();
+}
