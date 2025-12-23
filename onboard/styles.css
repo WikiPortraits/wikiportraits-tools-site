@@ -2,18 +2,18 @@
 .onboard-steps {
     display: flex;
     justify-content: space-between;
-    padding: 1.25rem 1rem;
+    padding: var(--space-lg) var(--space-md);
     background: var(--background-light);
     border-bottom: 1px solid var(--border);
     overflow-x: auto;
-    gap: 0.375rem;
+    gap: var(--space-sm);
 }
 
 .onboard-step {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.375rem;
+    gap: var(--space-sm);
     min-width: 80px;
     cursor: pointer;
 }
@@ -113,27 +113,27 @@
 .step-title {
     font-size: 1.75rem;
     font-weight: 700;
-    margin: 0.75rem 0;
+    margin: var(--space-md) 0;
 }
 
 .step-description {
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-md);
 }
 
 .step-description p {
-    margin-bottom: 0.375rem;
+    margin-bottom: var(--space-sm);
 }
 
 /* Path Choice */
 .path-choice {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-    margin-top: 1rem;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
 }
 
 .path-option {
-    padding: 1rem;
+    padding: var(--space-md);
     border: 2px solid var(--border);
     border-radius: var(--radius);
     cursor: pointer;
@@ -159,13 +159,13 @@
 
 .path-option__icon {
     font-size: 2.5rem;
-    margin-bottom: 0.375rem;
+    margin-bottom: var(--space-sm);
 }
 
 .path-option__title {
     font-size: 1.125rem;
     font-weight: 600;
-    margin-bottom: 0.375rem;
+    margin-bottom: var(--space-sm);
 }
 
 .path-option__description {
@@ -176,15 +176,15 @@
 /* Checklist */
 .checklist {
     list-style: none;
-    margin: 1rem 0;
+    margin: var(--space-md) 0;
     padding: 0;
 }
 
 .checklist-item {
     display: flex;
     align-items: flex-start;
-    padding: 0.375rem 0.75rem;
-    margin-bottom: 0.375rem;
+    padding: var(--space-sm) var(--space-md);
+    margin-bottom: var(--space-sm);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: white;
@@ -198,7 +198,7 @@
 .checklist-item input {
     width: 20px;
     height: 20px;
-    margin: 2px 0.75rem 0 0;
+    margin: 2px var(--space-md) 0 0;
     cursor: pointer;
 }
 
@@ -221,14 +221,14 @@
 .action-links {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    margin: 1.25rem 0;
+    gap: var(--space-md);
+    margin: var(--space-lg) 0;
 }
 
 .action-link::after {
     content: "↗";
     font-size: 1.25rem;
-    margin-left: 0.375rem;
+    margin-left: var(--space-sm);
 }
 
 /* Completion Summary */
@@ -236,34 +236,34 @@
     background: var(--success-light);
     border: 2px solid var(--success);
     border-radius: var(--radius);
-    padding: 1rem;
-    margin: 1rem 0;
+    padding: var(--space-md);
+    margin: var(--space-md) 0;
 }
 
 .completion-summary__icon {
     text-align: center;
     font-size: 3rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: var(--space-md);
 }
 
 .completion-summary__title {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--success);
-    margin-bottom: 0.75rem;
+    margin-bottom: var(--space-md);
     text-align: center;
 }
 
 .completion-summary__stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 0.75rem;
-    margin-bottom: 1rem;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
 }
 
 .stat-item {
     text-align: center;
-    padding: 0.75rem;
+    padding: var(--space-md);
     background: white;
     border-radius: var(--radius);
 }
@@ -280,20 +280,20 @@
 }
 
 .next-steps {
-    margin-top: 1rem;
+    margin-top: var(--space-md);
 }
 
 .next-steps__title {
     font-size: 1.125rem;
     font-weight: 600;
-    margin-bottom: 0.75rem;
+    margin-bottom: var(--space-md);
 }
 
 /* Navigation Buttons */
 .onboard-buttons {
     display: flex;
     justify-content: space-between;
-    padding: 1.25rem;
+    padding: var(--space-lg);
     border-top: 1px solid var(--border);
     background: var(--background-light);
 }
@@ -301,7 +301,7 @@
 /* Mobile */
 @media (max-width: 768px) {
     .onboard-steps {
-        padding: 0.75rem;
+        padding: var(--space-md);
     }
 
     .onboard-step {
