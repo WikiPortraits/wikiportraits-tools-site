@@ -5,11 +5,13 @@
     const HEX_COLOR_REGEX = /^#[0-9A-Fa-f]{6}$/;
     const PARENT_CATEGORIES_SELECTOR = 'input[name="parentCategories"]:checked';
     const COMMONS_BASE_URL = 'https://commons.wikimedia.org/wiki';
+    const COMMONS_API_URL = 'https://commons.wikimedia.org/w/api.php';
     const COPY_SUCCESS_DURATION = 2000;
 
     // DOM elements
     const DOM = {
         form: document.getElementById('templateForm'),
+        submitBtn: document.querySelector('#templateForm [type="submit"]'),
         eventName: document.getElementById('eventName'),
         eventAbbreviation: document.getElementById('eventAbbreviation'),
         eventYear: document.getElementById('eventYear'),
@@ -25,7 +27,9 @@
         copyCategory: document.getElementById('copyCategory'),
         createTemplateLink: document.getElementById('createTemplateLink'),
         createCategoryLink: document.getElementById('createCategoryLink'),
-        templateExample: document.getElementById('templateExample')
+        templateExample: document.getElementById('templateExample'),
+        templateExistsWarning: document.getElementById('templateExistsWarning'),
+        categoryExistsWarning: document.getElementById('categoryExistsWarning')
     };
 
     // Initialize year
@@ -106,8 +110,66 @@ ${parentCategoryLinks}
         }
     });
 
+    // Existence check against Wikimedia Commons API
+    const checkCommonsPages = async (templateName, categoryName) => {
+        const params = new URLSearchParams({
+            action: 'query',
+            titles: `Template:${templateName}|Category:${categoryName}`,
+            prop: 'revisions',
+            rvprop: 'content',
+            rvslots: 'main',
+            format: 'json',
+            origin: '*'
+        });
+
+        try {
+            const response = await fetch(`${COMMONS_API_URL}?${params}`);
+            if (!response.ok) return null;
+            const data = await response.json();
+            const pages = data.query.pages;
+
+            const result = { template: null, category: null };
+            for (const pageId of Object.keys(pages)) {
+                const page = pages[pageId];
+                if (pageId === '-1' || 'missing' in page) continue;
+
+                const content = page.revisions?.[0]?.slots?.main?.['*']
+                    ?? page.revisions?.[0]?.['*']
+                    ?? '';
+                const pageUrl = `${COMMONS_BASE_URL}/${page.title.replace(/ /g, '_')}`;
+
+                if (page.title.startsWith('Template:')) {
+                    result.template = { url: pageUrl, content };
+                } else if (page.title.startsWith('Category:')) {
+                    result.category = { url: pageUrl, content };
+                }
+            }
+            return result;
+        } catch {
+            return null;
+        }
+    };
+
+    const showExistenceWarning = (warningEl, info, typeName, pageName, eventName) => {
+        if (!info) {
+            warningEl.style.display = 'none';
+            return;
+        }
+
+        const sameEvent = info.content.toLowerCase().includes(eventName.toLowerCase());
+        warningEl.className = 'existence-warning';
+
+        if (sameEvent) {
+            warningEl.innerHTML = `<strong>&#9888;&#65039; ${typeName.charAt(0).toUpperCase() + typeName.slice(1)} "${pageName}" already exists on Wikimedia Commons</strong> and appears to be for the same event. No need to create it again. <a href="${info.url}" target="_blank" rel="noopener">View existing ${typeName} &rarr;</a>`;
+        } else {
+            warningEl.innerHTML = `<strong>&#9888;&#65039; ${typeName.charAt(0).toUpperCase() + typeName.slice(1)} "${pageName}" already exists on Wikimedia Commons</strong>, possibly for a different event (e.g., a conflicting abbreviation). If this is a conflict, scroll up and adjust the event name or abbreviation before creating. <a href="${info.url}" target="_blank" rel="noopener">View existing ${typeName} &rarr;</a>`;
+        }
+
+        warningEl.style.display = 'block';
+    };
+
     // Form submission
-    DOM.form.addEventListener('submit', (e) => {
+    DOM.form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const selectedCategories = getSelectedCategories();
@@ -116,10 +178,10 @@ ${parentCategoryLinks}
             return;
         }
 
-        generateTemplates();
+        await generateTemplates();
     });
 
-    const generateTemplates = () => {
+    const generateTemplates = async () => {
         const { eventName, eventAbbreviation, eventYear, wikiArticle, accentColor, selectedCategories } = getFormData();
 
         const templateName = generateTemplateName(eventName, eventAbbreviation, eventYear);
@@ -139,9 +201,25 @@ ${parentCategoryLinks}
         DOM.createTemplateLink.href = createCommonsUrl('Template', templateName);
         DOM.createCategoryLink.href = createCommonsUrl('Category', categoryName);
 
-        // Show output section
+        // Show output section before the async check so results are visible immediately
         DOM.outputSection.style.display = 'block';
         DOM.outputSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        // Clear any previous warnings and show loading state
+        DOM.templateExistsWarning.style.display = 'none';
+        DOM.categoryExistsWarning.style.display = 'none';
+        DOM.submitBtn.textContent = 'Checking Commons…';
+        DOM.submitBtn.disabled = true;
+
+        const existence = await checkCommonsPages(templateName, categoryName);
+
+        DOM.submitBtn.textContent = 'Generate Template + Category Syntax';
+        DOM.submitBtn.disabled = false;
+
+        if (existence) {
+            showExistenceWarning(DOM.templateExistsWarning, existence.template, 'template', templateName, eventName);
+            showExistenceWarning(DOM.categoryExistsWarning, existence.category, 'category', categoryName, eventName);
+        }
     };
 
     // Copy to clipboard functionality

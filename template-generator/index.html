@@ -185,27 +185,23 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Generate Templates</button>
+                    <button type="submit" class="btn btn-primary">Generate Template + Category Syntax</button>
                     <button type="reset" class="btn btn-secondary">Reset Form</button>
                 </div>
             </form>
 
             <div id="outputSection" class="output-section" style="display: none;">
                 <div class="info-box">
-                    <h3>Next Steps</h3>
-                    <ol>
-                        <li>Make sure you're <a href="https://commons.wikimedia.org/wiki/Special:UserLogin"
-                                target="_blank" rel="noopener">logged in</a> to Wikimedia Commons</li>
-                        <li>Copy the template code and click "Create Template on Commons", pasting the code on the
-                            template-creation page</li>
-                        <li>Copy the category code and click "Create Category on Commons", pasting the code on the
-                            category-creation page</li>
-                        <li>The template and category will be ready to use on your WikiPortraits photos!</li>
-                    </ol>
+                    <p>Make sure you're <a href="https://commons.wikimedia.org/wiki/Special:UserLogin" target="_blank" rel="noopener">logged in to Wikimedia Commons</a> before completing the steps below.</p>
                 </div>
 
                 <div class="card card--compact output-card">
-                    <h2>Template Code</h2>
+                    <div class="step-header">
+                        <span class="step-badge">Step 1 of 2</span>
+                        <h2>Create Template</h2>
+                    </div>
+                    <div id="templateExistsWarning" class="existence-warning" style="display: none;"></div>
+                    <pre id="templateCode" class="code-block"></pre>
                     <div class="template-info">
                         <div class="info-row">
                             <span class="info-label">Template Name:</span>
@@ -217,18 +213,18 @@
                                 rel="noopener">Create Template on Commons</a>
                         </div>
                     </div>
-                    <pre id="templateCode" class="code-block"></pre>
                     <div class="info-box">
-                        <p><strong>💡 Using the Template:</strong> After creating the template on Commons, you can use it when uploading photos.
-                            Add the following template syntax to the "Other information"
-                            section of the Upload Wizard to automatically tag and categorize your uploads.
-                        </p>
-                        <p>Template: <code id="templateExample"></code></p>
+                        <p>When uploading photos, add <code id="templateExample"></code> to the "Other information" field in the Upload Wizard to automatically tag and categorize them.</p>
                     </div>
                 </div>
 
                 <div class="card card--compact output-card">
-                    <h2>Category Code</h2>
+                    <div class="step-header">
+                        <span class="step-badge">Step 2 of 2</span>
+                        <h2>Create Category</h2>
+                    </div>
+                    <div id="categoryExistsWarning" class="existence-warning" style="display: none;"></div>
+                    <pre id="categoryCode" class="code-block"></pre>
                     <div class="template-info">
                         <div class="info-row">
                             <span class="info-label">Category Name:</span>
@@ -240,14 +236,8 @@
                                 rel="noopener">Create Category on Commons</a>
                         </div>
                     </div>
-                    <pre id="categoryCode" class="code-block"></pre>
                     <div class="info-box">
-                        <p><strong>💡 Note:</strong>
-                            When uploading photos, you don't have to add this category if you add the above template,
-                            since the template will also add this category.
-                            However, you should still apply other general categories (e.g., subject's name, event name,
-                            location) as appropriate.
-                        </p>
+                        <p>The template above automatically adds this category to uploads, so no need to add it manually when uploading. Still apply other relevant categories (subject name, location, etc.) as appropriate.</p>
                     </div>
                 </div>
             </div>
