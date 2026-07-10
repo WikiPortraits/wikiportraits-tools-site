@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WikiPortraits Template Generator</title>
-    <link rel="icon" type="image/x-icon" href="../favicon.ico">
-    <link rel="stylesheet" href="../shared/styles.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+    <link rel="stylesheet" href="../shared/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
@@ -16,7 +16,10 @@
     <div class="page-container">
         <header class="page-header page-header--centered">
             <h1>Template Generator</h1>
-            <p>Guidance for creating WikiPortraits templates and categories for events we cover</p>
+            <p>
+                Guidance for creating WikiPortraits templates and categories for
+                events we cover
+            </p>
         </header>
 
         <main class="page-content">
@@ -24,23 +27,26 @@
                 <div class="form-section">
                     <h2>Event Details</h2>
 
-                    <p>Wiki is case-sensitive, so please use proper capitalization when filling out this form.</p>
+                    <p>
+                        Wiki is case-sensitive, so please use proper capitalization when
+                        filling out this form.
+                    </p>
 
                     <div class="form-group">
                         <label for="eventYear" class="form-label">Year <span class="required">*</span></label>
-                        <input type="number" id="eventYear" class="form-control" min="1980" required>
+                        <input type="number" id="eventYear" class="form-control" min="1980" required />
                     </div>
 
                     <div class="form-group">
                         <label for="eventName" class="form-label">Event Name <span class="required">*</span></label>
                         <input type="text" id="eventName" class="form-control"
-                            placeholder="e.g., New York Film Festival" required>
+                            placeholder="e.g., New York Film Festival" required />
                         <small class="form-help">The full name of the event</small>
                     </div>
 
                     <div class="form-group">
                         <label for="eventAbbreviation" class="form-label">Abbreviation (Optional)</label>
-                        <input type="text" id="eventAbbreviation" class="form-control" placeholder="e.g., NYFF">
+                        <input type="text" id="eventAbbreviation" class="form-control" placeholder="e.g., NYFF" />
                         <small class="form-help">Common abbreviation for the event (used in template name, if
                             provided)</small>
                     </div>
@@ -48,16 +54,311 @@
                     <div class="form-group">
                         <label for="wikiArticle" class="form-label">Wikipedia Article (Optional)</label>
                         <input type="text" id="wikiArticle" class="form-control"
-                            placeholder="e.g., New York Film Festival">
-                        <small class="form-help">The English Wikipedia article name for the event, if it exists</small>
+                            placeholder="e.g., New York Film Festival" />
+                        <small class="form-help">The English Wikipedia article name for the event, if it
+                            exists</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventCountry" class="form-label">Country <span class="required">*</span></label>
+                        <select id="eventCountry" class="form-control" required>
+                            <option value="">— Select a country —</option>
+                            <option value="Afghanistan">Afghanistan</option>
+                            <option value="Åland Islands">Åland Islands</option>
+                            <option value="Albania">Albania</option>
+                            <option value="Algeria">Algeria</option>
+                            <option value="American Samoa">American Samoa</option>
+                            <option value="Andorra">Andorra</option>
+                            <option value="Angola">Angola</option>
+                            <option value="Anguilla">Anguilla</option>
+                            <option value="Antarctica">Antarctica</option>
+                            <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Armenia">Armenia</option>
+                            <option value="Aruba">Aruba</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Austria">Austria</option>
+                            <option value="Azerbaijan">Azerbaijan</option>
+                            <option value="Bahamas">Bahamas</option>
+                            <option value="Bahrain">Bahrain</option>
+                            <option value="Bangladesh">Bangladesh</option>
+                            <option value="Barbados">Barbados</option>
+                            <option value="Belarus">Belarus</option>
+                            <option value="Belgium">Belgium</option>
+                            <option value="Belize">Belize</option>
+                            <option value="Benin">Benin</option>
+                            <option value="Bermuda">Bermuda</option>
+                            <option value="Bhutan">Bhutan</option>
+                            <option value="Bolivia">Bolivia</option>
+                            <option value="Bosnia and Herzegovina">
+                                Bosnia and Herzegovina
+                            </option>
+                            <option value="Botswana">Botswana</option>
+                            <option value="Bouvet Island">Bouvet Island</option>
+                            <option value="Brazil">Brazil</option>
+                            <option value="British Indian Ocean Territory">
+                                British Indian Ocean Territory
+                            </option>
+                            <option value="British Virgin Islands">
+                                British Virgin Islands
+                            </option>
+                            <option value="Brunei">Brunei</option>
+                            <option value="Bulgaria">Bulgaria</option>
+                            <option value="Burkina Faso">Burkina Faso</option>
+                            <option value="Burundi">Burundi</option>
+                            <option value="Cambodia">Cambodia</option>
+                            <option value="Cameroon">Cameroon</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Cape Verde">Cape Verde</option>
+                            <option value="Cayman Islands">Cayman Islands</option>
+                            <option value="Central African Republic">
+                                Central African Republic
+                            </option>
+                            <option value="Chad">Chad</option>
+                            <option value="Chile">Chile</option>
+                            <option value="China">China</option>
+                            <option value="Christmas Island">Christmas Island</option>
+                            <option value="Cocos (Keeling) Islands">
+                                Cocos (Keeling) Islands
+                            </option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Comoros">Comoros</option>
+                            <option value="Congo">Congo</option>
+                            <option value="Cook Islands">Cook Islands</option>
+                            <option value="Costa Rica">Costa Rica</option>
+                            <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+                            <option value="Croatia">Croatia</option>
+                            <option value="Cuba">Cuba</option>
+                            <option value="Cyprus">Cyprus</option>
+                            <option value="Czech Republic">Czech Republic</option>
+                            <option value="Democratic Republic of the Congo">
+                                Democratic Republic of the Congo
+                            </option>
+                            <option value="Denmark">Denmark</option>
+                            <option value="Djibouti">Djibouti</option>
+                            <option value="Dominica">Dominica</option>
+                            <option value="Dominican Republic">Dominican Republic</option>
+                            <option value="East Timor">East Timor</option>
+                            <option value="Ecuador">Ecuador</option>
+                            <option value="Egypt">Egypt</option>
+                            <option value="El Salvador">El Salvador</option>
+                            <option value="Equatorial Guinea">Equatorial Guinea</option>
+                            <option value="Eritrea">Eritrea</option>
+                            <option value="Estonia">Estonia</option>
+                            <option value="Ethiopia">Ethiopia</option>
+                            <option value="Falkland Islands">Falkland Islands</option>
+                            <option value="Faroe Islands">Faroe Islands</option>
+                            <option value="Federated States of Micronesia">
+                                Federated States of Micronesia
+                            </option>
+                            <option value="Fiji">Fiji</option>
+                            <option value="Finland">Finland</option>
+                            <option value="France">France</option>
+                            <option value="French Guiana">French Guiana</option>
+                            <option value="French Polynesia">French Polynesia</option>
+                            <option value="French Southern and Antarctic Lands">
+                                French Southern and Antarctic Lands
+                            </option>
+                            <option value="Gabon">Gabon</option>
+                            <option value="Gambia">Gambia</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Ghana">Ghana</option>
+                            <option value="Gibraltar">Gibraltar</option>
+                            <option value="Greece">Greece</option>
+                            <option value="Greenland">Greenland</option>
+                            <option value="Grenada">Grenada</option>
+                            <option value="Guadeloupe">Guadeloupe</option>
+                            <option value="Guam">Guam</option>
+                            <option value="Guatemala">Guatemala</option>
+                            <option value="Guernsey">Guernsey</option>
+                            <option value="Guinea">Guinea</option>
+                            <option value="Guinea-Bissau">Guinea-Bissau</option>
+                            <option value="Guyana">Guyana</option>
+                            <option value="Haiti">Haiti</option>
+                            <option value="Heard Island and McDonald Islands">
+                                Heard Island and McDonald Islands
+                            </option>
+                            <option value="Honduras">Honduras</option>
+                            <option value="Hong Kong">Hong Kong</option>
+                            <option value="Hungary">Hungary</option>
+                            <option value="Iceland">Iceland</option>
+                            <option value="India">India</option>
+                            <option value="Indonesia">Indonesia</option>
+                            <option value="Iran">Iran</option>
+                            <option value="Iraq">Iraq</option>
+                            <option value="Ireland">Ireland</option>
+                            <option value="Isle of Man">Isle of Man</option>
+                            <option value="Israel">Israel</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Jamaica">Jamaica</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Jersey">Jersey</option>
+                            <option value="Jordan">Jordan</option>
+                            <option value="Kazakhstan">Kazakhstan</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="Kiribati">Kiribati</option>
+                            <option value="Kuwait">Kuwait</option>
+                            <option value="Kyrgyzstan">Kyrgyzstan</option>
+                            <option value="Laos">Laos</option>
+                            <option value="Latvia">Latvia</option>
+                            <option value="Lebanon">Lebanon</option>
+                            <option value="Lesotho">Lesotho</option>
+                            <option value="Liberia">Liberia</option>
+                            <option value="Libya">Libya</option>
+                            <option value="Liechtenstein">Liechtenstein</option>
+                            <option value="Lithuania">Lithuania</option>
+                            <option value="Luxembourg">Luxembourg</option>
+                            <option value="Macao">Macao</option>
+                            <option value="Madagascar">Madagascar</option>
+                            <option value="Malawi">Malawi</option>
+                            <option value="Malaysia">Malaysia</option>
+                            <option value="Maldives">Maldives</option>
+                            <option value="Mali">Mali</option>
+                            <option value="Malta">Malta</option>
+                            <option value="Marshall Islands">Marshall Islands</option>
+                            <option value="Martinique">Martinique</option>
+                            <option value="Mauritania">Mauritania</option>
+                            <option value="Mauritius">Mauritius</option>
+                            <option value="Mayotte">Mayotte</option>
+                            <option value="Mexico">Mexico</option>
+                            <option value="Moldova">Moldova</option>
+                            <option value="Monaco">Monaco</option>
+                            <option value="Mongolia">Mongolia</option>
+                            <option value="Montenegro">Montenegro</option>
+                            <option value="Montserrat">Montserrat</option>
+                            <option value="Morocco">Morocco</option>
+                            <option value="Mozambique">Mozambique</option>
+                            <option value="Myanmar">Myanmar</option>
+                            <option value="Namibia">Namibia</option>
+                            <option value="Nauru">Nauru</option>
+                            <option value="Nepal">Nepal</option>
+                            <option value="Netherlands">Netherlands</option>
+                            <option value="Netherlands Antilles">
+                                Netherlands Antilles
+                            </option>
+                            <option value="New Caledonia">New Caledonia</option>
+                            <option value="New Zealand">New Zealand</option>
+                            <option value="Nicaragua">Nicaragua</option>
+                            <option value="Niger">Niger</option>
+                            <option value="Nigeria">Nigeria</option>
+                            <option value="Niue">Niue</option>
+                            <option value="Norfolk Island">Norfolk Island</option>
+                            <option value="North Korea">North Korea</option>
+                            <option value="North Macedonia">North Macedonia</option>
+                            <option value="Northern Mariana Islands">
+                                Northern Mariana Islands
+                            </option>
+                            <option value="Norway">Norway</option>
+                            <option value="Oman">Oman</option>
+                            <option value="Pakistan">Pakistan</option>
+                            <option value="Palau">Palau</option>
+                            <option value="Palestine">Palestine</option>
+                            <option value="Panama">Panama</option>
+                            <option value="Papua New Guinea">Papua New Guinea</option>
+                            <option value="Paraguay">Paraguay</option>
+                            <option value="Peru">Peru</option>
+                            <option value="Philippines">Philippines</option>
+                            <option value="Pitcairn Islands">Pitcairn Islands</option>
+                            <option value="Poland">Poland</option>
+                            <option value="Portugal">Portugal</option>
+                            <option value="Puerto Rico">Puerto Rico</option>
+                            <option value="Qatar">Qatar</option>
+                            <option value="Reunion">Reunion</option>
+                            <option value="Romania">Romania</option>
+                            <option value="Russian Federation">Russian Federation</option>
+                            <option value="Rwanda">Rwanda</option>
+                            <option value="Saint Helena">Saint Helena</option>
+                            <option value="Saint Kitts and Nevis">
+                                Saint Kitts and Nevis
+                            </option>
+                            <option value="Saint Lucia">Saint Lucia</option>
+                            <option value="Saint Pierre and Miquelon">
+                                Saint Pierre and Miquelon
+                            </option>
+                            <option value="Saint Vincent and the Grenadines">
+                                Saint Vincent and the Grenadines
+                            </option>
+                            <option value="Samoa">Samoa</option>
+                            <option value="San Marino">San Marino</option>
+                            <option value="Sao Tome and Principe">
+                                Sao Tome and Principe
+                            </option>
+                            <option value="Saudi Arabia">Saudi Arabia</option>
+                            <option value="Senegal">Senegal</option>
+                            <option value="Serbia">Serbia</option>
+                            <option value="Seychelles">Seychelles</option>
+                            <option value="Sierra Leone">Sierra Leone</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="Slovakia">Slovakia</option>
+                            <option value="Slovenia">Slovenia</option>
+                            <option value="Solomon Islands">Solomon Islands</option>
+                            <option value="Somalia">Somalia</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="South Georgia and the South Sandwich Islands">
+                                South Georgia and the South Sandwich Islands
+                            </option>
+                            <option value="South Korea">South Korea</option>
+                            <option value="Spain">Spain</option>
+                            <option value="Sri Lanka">Sri Lanka</option>
+                            <option value="Sudan">Sudan</option>
+                            <option value="Suriname">Suriname</option>
+                            <option value="Svalbard and Jan Mayen">
+                                Svalbard and Jan Mayen
+                            </option>
+                            <option value="Swaziland">Swaziland</option>
+                            <option value="Sweden">Sweden</option>
+                            <option value="Switzerland">Switzerland</option>
+                            <option value="Syria">Syria</option>
+                            <option value="Taiwan">Taiwan</option>
+                            <option value="Tajikistan">Tajikistan</option>
+                            <option value="Tanzania">Tanzania</option>
+                            <option value="Thailand">Thailand</option>
+                            <option value="Togo">Togo</option>
+                            <option value="Tokelau">Tokelau</option>
+                            <option value="Tonga">Tonga</option>
+                            <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                            <option value="Tunisia">Tunisia</option>
+                            <option value="Turkey">Turkey</option>
+                            <option value="Turkmenistan">Turkmenistan</option>
+                            <option value="Turks and Caicos Islands">
+                                Turks and Caicos Islands
+                            </option>
+                            <option value="Tuvalu">Tuvalu</option>
+                            <option value="Uganda">Uganda</option>
+                            <option value="Ukraine">Ukraine</option>
+                            <option value="United Arab Emirates">
+                                United Arab Emirates
+                            </option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="United States">United States</option>
+                            <option value="United States Minor Outlying Islands">
+                                United States Minor Outlying Islands
+                            </option>
+                            <option value="United States Virgin Islands">
+                                United States Virgin Islands
+                            </option>
+                            <option value="Uruguay">Uruguay</option>
+                            <option value="Uzbekistan">Uzbekistan</option>
+                            <option value="Vanuatu">Vanuatu</option>
+                            <option value="Vatican City">Vatican City</option>
+                            <option value="Venezuela">Venezuela</option>
+                            <option value="Vietnam">Vietnam</option>
+                            <option value="Wallis and Futuna">Wallis and Futuna</option>
+                            <option value="Western Sahara">Western Sahara</option>
+                            <option value="Yemen">Yemen</option>
+                            <option value="Zambia">Zambia</option>
+                            <option value="Zimbabwe">Zimbabwe</option>
+                        </select>
+                        <small class="form-help">Adds the event to Category:WikiPortraits in [country]</small>
                     </div>
 
                     <div class="form-group">
                         <label for="accentColor" class="form-label">Accent Color <span class="required">*</span></label>
                         <div class="color-input-group">
-                            <input type="color" id="accentColor" class="color-picker" value="#000000">
+                            <input type="color" id="accentColor" class="color-picker" value="#000000" />
                             <input type="text" id="accentColorText" class="form-control color-text" value="#000000"
-                                pattern="^#[0-9A-Fa-f]{6}$">
+                                pattern="^#[0-9A-Fa-f]{6}$" />
                         </div>
                         <small class="form-help">The brand color for this event</small>
                     </div>
@@ -66,118 +367,119 @@
                         <label class="form-label">Event Type <span class="required">*</span></label>
                         <small class="form-help">
                             Select all event types that apply (at least one required)
-                            <br>
-                            If none fit, please reach out to WikiPortraits organizers for help!
+                            <br />
+                            If none fit, please reach out to WikiPortraits organizers for
+                            help!
                         </small>
                         <div class="category-checkboxes">
                             <div class="form-check">
                                 <input type="checkbox" id="cat-academic" name="parentCategories"
-                                    value="WikiPortraits at academic conferences">
+                                    value="WikiPortraits at academic conferences" />
                                 <label for="cat-academic">🎓 Academic conferences</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-art" name="parentCategories"
-                                    value="WikiPortraits at art events">
+                                    value="WikiPortraits at art events" />
                                 <label for="cat-art">🎨 Art events</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-civic" name="parentCategories"
-                                    value="WikiPortraits at civic events">
+                                    value="WikiPortraits at civic events" />
                                 <label for="cat-civic">🏛️ Civic events</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-comedy" name="parentCategories"
-                                    value="WikiPortraits at comedy shows">
+                                    value="WikiPortraits at comedy shows" />
                                 <label for="cat-comedy">😄 Comedy shows</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-conventions" name="parentCategories"
-                                    value="WikiPortraits at conventions">
+                                    value="WikiPortraits at conventions" />
                                 <label for="cat-conventions">🎪 Conventions</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-cultural" name="parentCategories"
-                                    value="WikiPortraits at cultural festivals">
+                                    value="WikiPortraits at cultural festivals" />
                                 <label for="cat-cultural">🎭 Cultural festivals</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-fashion" name="parentCategories"
-                                    value="WikiPortraits at fashion events">
+                                    value="WikiPortraits at fashion events" />
                                 <label for="cat-fashion">👗 Fashion events</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-film" name="parentCategories"
-                                    value="WikiPortraits at film events">
+                                    value="WikiPortraits at film events" />
                                 <label for="cat-film">🎬 Film events</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-graduation" name="parentCategories"
-                                    value="WikiPortraits at graduation ceremonies">
+                                    value="WikiPortraits at graduation ceremonies" />
                                 <label for="cat-graduation">🎓 Graduation ceremonies</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-indigenous" name="parentCategories"
-                                    value="WikiPortraits at indigenous events">
+                                    value="WikiPortraits at indigenous events" />
                                 <label for="cat-indigenous">🪶 Indigenous events</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-journalism" name="parentCategories"
-                                    value="WikiPortraits at journalism events">
+                                    value="WikiPortraits at journalism events" />
                                 <label for="cat-journalism">📰 Journalism events</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-literature" name="parentCategories"
-                                    value="WikiPortraits at literature events">
+                                    value="WikiPortraits at literature events" />
                                 <label for="cat-literature">📚 Literature events</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-music" name="parentCategories"
-                                    value="WikiPortraits at music events">
+                                    value="WikiPortraits at music events" />
                                 <label for="cat-music">🎵 Music events</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-pride" name="parentCategories"
-                                    value="WikiPortraits at pride events">
+                                    value="WikiPortraits at pride events" />
                                 <label for="cat-pride">🏳️‍🌈 Pride events</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-sporting" name="parentCategories"
-                                    value="WikiPortraits at sporting events">
+                                    value="WikiPortraits at sporting events" />
                                 <label for="cat-sporting">⚽ Sporting events</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-technology" name="parentCategories"
-                                    value="WikiPortraits at technology events">
+                                    value="WikiPortraits at technology events" />
                                 <label for="cat-technology">💻 Technology events</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-ted" name="parentCategories"
-                                    value="WikiPortraits at TED and TEDx">
+                                    value="WikiPortraits at TED and TEDx" />
                                 <label for="cat-ted">💡 TED and TEDx</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-nobel" name="parentCategories"
-                                    value="WikiPortraits at the Nobel Prizes">
+                                    value="WikiPortraits at the Nobel Prizes" />
                                 <label for="cat-nobel">🏆 Nobel Prizes</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-vatican" name="parentCategories"
-                                    value="WikiPortraits at the Vatican">
+                                    value="WikiPortraits at the Vatican" />
                                 <label for="cat-vatican">⛪ Vatican</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-venice" name="parentCategories"
-                                    value="WikiPortraits at the Venice Biennale">
+                                    value="WikiPortraits at the Venice Biennale" />
                                 <label for="cat-venice">🎨 Venice Biennale</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-theatrical" name="parentCategories"
-                                    value="WikiPortraits at theatrical shows and festivals">
+                                    value="WikiPortraits at theatrical shows and festivals" />
                                 <label for="cat-theatrical">🎭 Theatrical shows and festivals</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" id="cat-wikimedia" name="parentCategories"
-                                    value="WikiPortraits at Wikimedia events">
+                                    value="WikiPortraits at Wikimedia events" />
                                 <label for="cat-wikimedia">📖 Wikimedia events</label>
                             </div>
                         </div>
@@ -185,14 +487,21 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Generate Template + Category Syntax</button>
+                    <button type="submit" class="btn btn-primary">
+                        Generate Template + Category Syntax
+                    </button>
                     <button type="reset" class="btn btn-secondary">Reset Form</button>
                 </div>
             </form>
 
-            <div id="outputSection" class="output-section" style="display: none;">
+            <div id="outputSection" class="output-section" style="display: none">
                 <div class="info-box">
-                    <p>Make sure you're <a href="https://commons.wikimedia.org/wiki/Special:UserLogin" target="_blank" rel="noopener">logged in to Wikimedia Commons</a> before completing the steps below.</p>
+                    <p>
+                        Make sure you're
+                        <a href="https://commons.wikimedia.org/wiki/Special:UserLogin" target="_blank"
+                            rel="noopener">logged in to Wikimedia Commons</a>
+                        before completing the steps below.
+                    </p>
                 </div>
 
                 <div class="card card--compact output-card">
@@ -200,7 +509,7 @@
                         <span class="step-badge">Step 1 of 2</span>
                         <h2>Create Template</h2>
                     </div>
-                    <div id="templateExistsWarning" class="existence-warning" style="display: none;"></div>
+                    <div id="templateExistsWarning" class="existence-warning" style="display: none"></div>
                     <pre id="templateCode" class="code-block"></pre>
                     <div class="template-info">
                         <div class="info-row">
@@ -208,13 +517,19 @@
                             <code id="templateName" class="info-value"></code>
                         </div>
                         <div class="actions">
-                            <button id="copyTemplate" class="btn btn-sm btn-secondary">Copy Code</button>
+                            <button id="copyTemplate" class="btn btn-sm btn-secondary">
+                                Copy Code
+                            </button>
                             <a id="createTemplateLink" class="btn btn-sm btn-primary" target="_blank"
                                 rel="noopener">Create Template on Commons</a>
                         </div>
                     </div>
                     <div class="info-box">
-                        <p>When uploading photos, add <code id="templateExample"></code> to the "Other information" field in the Upload Wizard to automatically tag and categorize them.</p>
+                        <p>
+                            When uploading photos, add <code id="templateExample"></code> to
+                            the "Other information" field in the Upload Wizard to
+                            automatically tag and categorize them.
+                        </p>
                     </div>
                 </div>
 
@@ -223,7 +538,7 @@
                         <span class="step-badge">Step 2 of 2</span>
                         <h2>Create Category</h2>
                     </div>
-                    <div id="categoryExistsWarning" class="existence-warning" style="display: none;"></div>
+                    <div id="categoryExistsWarning" class="existence-warning" style="display: none"></div>
                     <pre id="categoryCode" class="code-block"></pre>
                     <div class="template-info">
                         <div class="info-row">
@@ -231,13 +546,20 @@
                             <code id="categoryName" class="info-value"></code>
                         </div>
                         <div class="actions">
-                            <button id="copyCategory" class="btn btn-sm btn-secondary">Copy Code</button>
+                            <button id="copyCategory" class="btn btn-sm btn-secondary">
+                                Copy Code
+                            </button>
                             <a id="createCategoryLink" class="btn btn-sm btn-primary" target="_blank"
                                 rel="noopener">Create Category on Commons</a>
                         </div>
                     </div>
                     <div class="info-box">
-                        <p>The template above automatically adds this category to uploads, so no need to add it manually when uploading. Still apply other relevant categories (subject name, location, etc.) as appropriate.</p>
+                        <p>
+                            The template above automatically adds this category to uploads,
+                            so no need to add it manually when uploading. Still apply other
+                            relevant categories (subject name, location, etc.) as
+                            appropriate.
+                        </p>
                     </div>
                 </div>
             </div>

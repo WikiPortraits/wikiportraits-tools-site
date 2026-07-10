@@ -16,6 +16,7 @@
         eventAbbreviation: document.getElementById('eventAbbreviation'),
         eventYear: document.getElementById('eventYear'),
         wikiArticle: document.getElementById('wikiArticle'),
+        eventCountry: document.getElementById('eventCountry'),
         accentColor: document.getElementById('accentColor'),
         accentColorText: document.getElementById('accentColorText'),
         outputSection: document.getElementById('outputSection'),
@@ -47,6 +48,7 @@
         eventAbbreviation: DOM.eventAbbreviation.value.trim(),
         eventYear: DOM.eventYear.value.trim(),
         wikiArticle: DOM.wikiArticle.value.trim(),
+        eventCountry: DOM.eventCountry.value.trim(),
         accentColor: DOM.accentColorText.value.trim(),
         selectedCategories: getSelectedCategories()
     });
@@ -71,12 +73,13 @@
 |accent = ${accentColor}
 }}<includeonly>{{#ifeq: {{NAMESPACENUMBER}} | 6 | [[Category:${categoryName}]]}}</includeonly><noinclude>{{Documentation}}</noinclude>`;
 
-    const generateCategoryCode = (templateName, selectedCategories, year) => {
+    const generateCategoryCode = (templateName, selectedCategories, year, country) => {
         const parentCategoryLinks = selectedCategories.map(cat => `[[Category:${cat}]]`).join('\n');
+        const countryLink = country ? `\n[[Category:WikiPortraits in ${country}]]` : '';
         return `{{Hiddencat}}
 {{${templateName}}}
 ${parentCategoryLinks}
-[[Category:WikiPortraits in ${year}]]`;
+[[Category:WikiPortraits in ${year}]]${countryLink}`;
     };
 
     const createCommonsUrl = (type, name) =>
@@ -182,13 +185,13 @@ ${parentCategoryLinks}
     });
 
     const generateTemplates = async () => {
-        const { eventName, eventAbbreviation, eventYear, wikiArticle, accentColor, selectedCategories } = getFormData();
+        const { eventName, eventAbbreviation, eventYear, wikiArticle, eventCountry, accentColor, selectedCategories } = getFormData();
 
         const templateName = generateTemplateName(eventName, eventAbbreviation, eventYear);
         const categoryName = generateCategoryName(eventName, eventYear);
         const title = generateTitle(wikiArticle, eventName, eventYear);
         const templateCode = generateTemplateCode(title, categoryName, accentColor);
-        const categoryCode = generateCategoryCode(templateName, selectedCategories, eventYear);
+        const categoryCode = generateCategoryCode(templateName, selectedCategories, eventYear, eventCountry);
 
         // Display results
         DOM.templateName.textContent = `Template:${templateName}`;
