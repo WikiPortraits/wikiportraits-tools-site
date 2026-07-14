@@ -73,9 +73,48 @@
 |accent = ${accentColor}
 }}<includeonly>{{#ifeq: {{NAMESPACENUMBER}} | 6 | [[Category:${categoryName}]]}}</includeonly><noinclude>{{Documentation}}</noinclude>`;
 
+    // Prefix "the" for certain countries in category names
+    const COUNTRIES_TAKING_THE = new Set([
+        'Bahamas',
+        'British Indian Ocean Territory',
+        'British Virgin Islands',
+        'Cayman Islands',
+        'Central African Republic',
+        'Cocos (Keeling) Islands',
+        'Comoros',
+        'Congo',
+        'Cook Islands',
+        'Czech Republic',
+        'Democratic Republic of the Congo',
+        'Dominican Republic',
+        'Falkland Islands',
+        'Faroe Islands',
+        'Federated States of Micronesia',
+        'Gambia',
+        'Isle of Man',
+        'Maldives',
+        'Marshall Islands',
+        'Netherlands',
+        'Netherlands Antilles',
+        'Northern Mariana Islands',
+        'Philippines',
+        'Pitcairn Islands',
+        'Russian Federation',
+        'Solomon Islands',
+        'Turks and Caicos Islands',
+        'United Arab Emirates',
+        'United Kingdom',
+        'United States',
+        'United States Minor Outlying Islands',
+        'United States Virgin Islands'
+    ]);
+
+    const countryCategoryName = country =>
+        COUNTRIES_TAKING_THE.has(country) ? `the ${country}` : country;
+
     const generateCategoryCode = (templateName, selectedCategories, year, country) => {
         const parentCategoryLinks = selectedCategories.map(cat => `[[Category:${cat}]]`).join('\n');
-        const countryLink = country ? `\n[[Category:WikiPortraits in ${country}]]` : '';
+        const countryLink = country ? `\n[[Category:WikiPortraits in ${countryCategoryName(country)}]]` : '';
         return `{{Hiddencat}}
 {{${templateName}}}
 ${parentCategoryLinks}
