@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WikiPortraits Image History</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+    <link rel="stylesheet" href="../shared/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div
+      data-component="navigation"
+      data-component-dir="../shared/components"
+    ></div>
+
+    <div class="page-container page-container--wide">
+      <header class="page-header page-header--centered">
+        <h1>Image History + Graphic Generator</h1>
+        <p>
+          See how a Wikipedia article's lead image has changed over time and
+          generate social media graphics.
+        </p>
+      </header>
+
+      <main class="page-content">
+        <form id="lookupForm" class="form-card" autocomplete="off">
+          <div class="lookup-grid">
+            <div class="form-group">
+              <label for="articleInput" class="form-label"
+                >Article <span class="required">*</span></label
+              >
+              <input
+                type="text"
+                id="articleInput"
+                class="form-control"
+                list="articleSuggestions"
+                placeholder="Article title or Wikipedia link"
+                required
+              />
+              <datalist id="articleSuggestions"></datalist>
+              <small class="form-help">
+                Type a title and pick a suggestion, or paste a Wikipedia URL in
+                any language.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label for="langInput" class="form-label">Language</label>
+              <input
+                type="text"
+                id="langInput"
+                class="form-control"
+                list="langSuggestions"
+                value="en"
+                maxlength="20"
+                spellcheck="false"
+              />
+              <datalist id="langSuggestions"></datalist>
+              <small class="form-help">Language code</small>
+            </div>
+            <div class="form-group">
+              <label for="versionsSelect" class="form-label">Images</label>
+              <select id="versionsSelect" class="form-control">
+                <option value="2" selected>Last 2</option>
+                <option value="3">Last 3</option>
+                <option value="4">Last 4</option>
+                <option value="5">Last 5</option>
+                <option value="6">Last 6</option>
+                <option value="7">Last 7</option>
+                <option value="8">Last 8</option>
+                <option value="9">Last 9</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="rangeSelect" class="form-label">Time range</label>
+              <select id="rangeSelect" class="form-control">
+                <option value="all" selected>All time</option>
+                <option value="1m">Past month</option>
+                <option value="6m">Past 6 months</option>
+                <option value="1y">Past year</option>
+                <option value="2y">Past 2 years</option>
+                <option value="5y">Past 5 years</option>
+                <option value="10y">Past 10 years</option>
+                <option value="custom">Custom dates…</option>
+              </select>
+            </div>
+            <div class="form-group custom-range" id="customRange" hidden>
+              <label for="fromInput" class="form-label">From</label>
+              <input type="date" id="fromInput" class="form-control" />
+            </div>
+            <div class="form-group custom-range" id="customRangeTo" hidden>
+              <label for="toInput" class="form-label">To</label>
+              <input type="date" id="toInput" class="form-control" />
+              <small class="form-help">Leave empty for today</small>
+            </div>
+          </div>
+
+          <div class="form-check thorough-check">
+            <input type="checkbox" id="thoroughInput" />
+            <label for="thoroughInput">Thorough scan</label>
+          </div>
+          <small class="form-help thorough-help">
+            Slower, but catches short-lived changes on heavily edited articles.
+          </small>
+
+          <div class="form-actions">
+            <button type="submit" id="scanButton" class="btn btn-primary">
+              Show image history
+            </button>
+            <button
+              type="button"
+              id="cancelButton"
+              class="btn btn-secondary"
+              hidden
+            >
+              Cancel
+            </button>
+          </div>
+
+          <div id="scanStatus" class="scan-status" hidden aria-live="polite">
+            <div
+              class="progress"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <div class="progress__bar" id="scanProgressBar"></div>
+            </div>
+            <p class="scan-status__text" id="scanStatusText"></p>
+          </div>
+
+          <div
+            id="scanError"
+            class="alert alert--error"
+            role="alert"
+            hidden
+          ></div>
+        </form>
+
+        <section id="resultsSection" class="results" hidden>
+          <div class="article-summary">
+            <div class="article-summary__thumb" id="articleThumb"></div>
+            <div class="article-summary__body">
+              <h2 class="article-summary__title">
+                <a id="articleLink" href="#" target="_blank" rel="noopener"></a>
+              </h2>
+              <p class="article-summary__stats" id="articleStats"></p>
+            </div>
+          </div>
+
+          <div id="scanNotice" class="info-box" hidden></div>
+
+          <section class="results-section">
+            <div class="section-head">
+              <h3>Timeline</h3>
+              <span class="section-head__note" id="timelineNote"></span>
+            </div>
+
+            <ol id="timeline" class="timeline"></ol>
+
+            <p id="rangeHint" class="range-hint" hidden></p>
+
+            <ul class="timeline-notes" id="timelineFootnote" hidden>
+              <li id="olderNote" hidden></li>
+              <li id="blipItem" hidden>
+                <span id="blipNote"></span>
+                <button type="button" id="blipToggle" class="link-button">
+                  Show them
+                </button>
+              </li>
+              <li id="sampleNote" hidden></li>
+            </ul>
+          </section>
+
+          <section class="results-section share-card">
+            <div class="share-card__head">
+              <div>
+                <h3 class="share-card__title">Share a before-and-after</h3>
+                <p class="share-card__text">
+                  Turn two of these images into one infobox-style graphic, in
+                  landscape or square sizes.
+                </p>
+              </div>
+              <button
+                type="button"
+                id="graphicToggle"
+                class="btn btn-outline"
+                aria-expanded="false"
+                aria-controls="composePanel"
+              >
+                Make a graphic
+              </button>
+            </div>
+
+            <div id="composePanel" class="compose-layout" hidden>
+              <div class="compose-preview">
+                <canvas
+                  id="previewCanvas"
+                  width="1200"
+                  height="900"
+                  aria-label="Before-and-after preview"
+                ></canvas>
+                <p
+                  class="compose-preview__hint"
+                  id="previewHint"
+                  aria-live="polite"
+                ></p>
+              </div>
+
+              <div class="compose-export">
+                <div class="compose-actions">
+                  <button
+                    type="button"
+                    id="downloadButton"
+                    class="btn btn-primary"
+                  >
+                    Download PNG
+                  </button>
+                  <button type="button" id="copyButton" class="btn btn-outline">
+                    Copy image
+                  </button>
+                </div>
+                <div
+                  id="licenseWarning"
+                  class="alert alert--warning"
+                  hidden
+                ></div>
+              </div>
+
+              <div class="compose-controls">
+                <div class="compose-controls__column">
+                  <fieldset class="control-group">
+                    <legend>Images</legend>
+                    <div class="pick-grid">
+                      <div class="form-group">
+                        <label for="beforeSelect" class="form-label"
+                          >Before</label
+                        >
+                        <div class="pick-row">
+                          <div class="pick-row__thumb" id="beforeThumb"></div>
+                          <select
+                            id="beforeSelect"
+                            class="form-control"
+                          ></select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="afterSelect" class="form-label"
+                          >After</label
+                        >
+                        <div class="pick-row">
+                          <div class="pick-row__thumb" id="afterThumb"></div>
+                          <select
+                            id="afterSelect"
+                            class="form-control"
+                          ></select>
+                        </div>
+                      </div>
+                    </div>
+                    <small class="form-help"
+                      >Or use the Before and After buttons on the
+                      timeline.</small
+                    >
+                  </fieldset>
+
+                  <fieldset class="control-group">
+                    <legend>Size</legend>
+                    <div class="preset-buttons" id="presetButtons">
+                      <label class="preset">
+                        <input
+                          type="radio"
+                          name="preset"
+                          value="landscape"
+                          checked
+                        />
+                        <span class="preset__name">Landscape</span>
+                        <span class="preset__dims">1200 × 900</span>
+                      </label>
+                      <label class="preset">
+                        <input type="radio" name="preset" value="square" />
+                        <span class="preset__name"
+                          >Square</span
+                        >
+                        <span class="preset__dims">1080 × 1080</span>
+                      </label>
+                    </div>
+                  </fieldset>
+                </div>
+
+                <div class="compose-controls__column">
+                  <fieldset class="control-group">
+                    <legend>Text</legend>
+                    <div class="form-group">
+                      <label for="titleInput" class="form-label">Title</label>
+                      <input
+                        type="text"
+                        id="titleInput"
+                        class="form-control"
+                        maxlength="120"
+                      />
+                    </div>
+                    <div class="label-grid">
+                      <div class="form-group">
+                        <label for="beforeLabelInput" class="form-label"
+                          >Left heading</label
+                        >
+                        <input
+                          type="text"
+                          id="beforeLabelInput"
+                          class="form-control"
+                          maxlength="60"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="afterLabelInput" class="form-label"
+                          >Right heading</label
+                        >
+                        <input
+                          type="text"
+                          id="afterLabelInput"
+                          class="form-control"
+                          maxlength="60"
+                        />
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <fieldset class="control-group">
+                    <legend>Options</legend>
+                    <div class="form-group">
+                      <label for="fitInput" class="form-label"
+                        >Photo framing</label
+                      >
+                      <select id="fitInput" class="form-control">
+                        <option value="cover">Crop to fill</option>
+                        <option value="contain">Show the whole photo</option>
+                      </select>
+                    </div>
+                    <div id="focusControls" class="focus-controls">
+                      <div class="focus-side">
+                        <span class="form-label">Before photo position</span>
+                        <div class="focus-slider">
+                          <span>Top</span>
+                          <input
+                            type="range"
+                            id="beforeFocusY"
+                            min="0"
+                            max="100"
+                            value="30"
+                            aria-label="Before photo, vertical position"
+                          />
+                          <span>Bottom</span>
+                        </div>
+                        <div class="focus-slider">
+                          <span>Left</span>
+                          <input
+                            type="range"
+                            id="beforeFocusX"
+                            min="0"
+                            max="100"
+                            value="50"
+                            aria-label="Before photo, horizontal position"
+                          />
+                          <span>Right</span>
+                        </div>
+                      </div>
+                      <div class="focus-side">
+                        <span class="form-label">After photo position</span>
+                        <div class="focus-slider">
+                          <span>Top</span>
+                          <input
+                            type="range"
+                            id="afterFocusY"
+                            min="0"
+                            max="100"
+                            value="30"
+                            aria-label="After photo, vertical position"
+                          />
+                          <span>Bottom</span>
+                        </div>
+                        <div class="focus-slider">
+                          <span>Left</span>
+                          <input
+                            type="range"
+                            id="afterFocusX"
+                            min="0"
+                            max="100"
+                            value="50"
+                            aria-label="After photo, horizontal position"
+                          />
+                          <span>Right</span>
+                        </div>
+                      </div>
+                      <small class="form-help"
+                        >Slide toward the part of the photo to keep. Sliders are
+                        disabled when the photo already fits that way.</small
+                      >
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" id="attributionInput" checked />
+                      <label for="attributionInput"
+                        >Include attribution in the image</label
+                      >
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" id="logoInput" checked />
+                      <label for="logoInput">Show the WikiPortraits logo</label>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+
+              <div class="attribution-box">
+                <div class="attribution-box__head">
+                  <span class="form-label">Attribution for your caption</span>
+                  <button
+                    type="button"
+                    id="copyAttributionButton"
+                    class="btn btn-outline btn-sm"
+                  >
+                    Copy text
+                  </button>
+                </div>
+                <p class="attribution-box__text" id="attributionText"></p>
+                <small class="form-help"
+                  >Most Commons photos need the photographer and license named
+                  when shared. Paste this in your post if you leave it out of
+                  the image.</small
+                >
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="../template-engine.js"></script>
+    <script>
+      templateEngine.loadComponents();
+    </script>
+    <script src="languages.js"></script>
+    <script src="parser.js"></script>
+    <script src="scanner.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

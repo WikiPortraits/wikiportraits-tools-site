@@ -1,12 +1,3 @@
-/* Form Card */
-.form-card {
-    background: var(--background-light);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    padding: var(--space-xl);
-    margin-bottom: var(--space-xl);
-}
-
 /* Color Input */
 .color-input-group {
     display: flex;
@@ -62,23 +53,19 @@
     font-size: 0.75rem;
     font-weight: 600;
     padding: 2px var(--space-sm);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     white-space: nowrap;
-    letter-spacing: 0.02em;
 }
-
 
 /* Existence warnings */
 .existence-warning {
-    background: #fff0f0;
+    background: var(--danger-light);
     border: 1px solid var(--danger);
     border-radius: var(--radius-sm);
     padding: var(--space-md);
     margin-bottom: var(--space-md);
-    font-size: 0.9rem;
-    line-height: 1.5;
+    font-size: 0.875rem;
 }
-
 
 .existence-warning a {
     font-weight: 500;
@@ -96,13 +83,11 @@
 
 .output-card h2 {
     font-size: 1.25rem;
-    color: var(--text);
 }
 
 .template-info {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
     margin-bottom: var(--space-md);
     padding: var(--space-md);
     background: var(--background);
@@ -158,10 +143,6 @@
 
 /* Mobile */
 @media (max-width: 768px) {
-    .form-card {
-        padding: var(--space-lg);
-    }
-
     .category-checkboxes {
         grid-template-columns: 1fr;
     }

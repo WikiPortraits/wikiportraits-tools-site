@@ -54,9 +54,7 @@
     });
 
     const generateTemplateName = (name, abbreviation, year) =>
-        abbreviation
-            ? `WikiPortraits ${abbreviation} ${year}`
-            : `WikiPortraits ${name} ${year}`;
+        `WikiPortraits ${abbreviation || name} ${year}`;
 
     const generateCategoryName = (name, year) =>
         `WikiPortraits at ${year} ${name}`;
@@ -171,13 +169,11 @@ ${parentCategoryLinks}
             const pages = data.query.pages;
 
             const result = { template: null, category: null };
-            for (const pageId of Object.keys(pages)) {
-                const page = pages[pageId];
+            for (const [pageId, page] of Object.entries(pages)) {
                 if (pageId === '-1' || 'missing' in page) continue;
 
-                const content = page.revisions?.[0]?.slots?.main?.['*']
-                    ?? page.revisions?.[0]?.['*']
-                    ?? '';
+                const revision = page.revisions?.[0];
+                const content = revision?.slots?.main?.['*'] ?? revision?.['*'] ?? '';
                 const pageUrl = `${COMMONS_BASE_URL}/${page.title.replace(/ /g, '_')}`;
 
                 if (page.title.startsWith('Template:')) {
@@ -199,12 +195,15 @@ ${parentCategoryLinks}
         }
 
         const sameEvent = info.content.toLowerCase().includes(eventName.toLowerCase());
+        const capitalizedType = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+        const heading = `<strong>&#9888;&#65039; ${capitalizedType} "${pageName}" already exists on Wikimedia Commons</strong>`;
+        const viewLink = `<a href="${info.url}" target="_blank" rel="noopener">View existing ${typeName} &rarr;</a>`;
         warningEl.className = 'existence-warning';
 
         if (sameEvent) {
-            warningEl.innerHTML = `<strong>&#9888;&#65039; ${typeName.charAt(0).toUpperCase() + typeName.slice(1)} "${pageName}" already exists on Wikimedia Commons</strong> and appears to be for the same event. No need to create it again. <a href="${info.url}" target="_blank" rel="noopener">View existing ${typeName} &rarr;</a>`;
+            warningEl.innerHTML = `${heading} and appears to be for the same event. No need to create it again. ${viewLink}`;
         } else {
-            warningEl.innerHTML = `<strong>&#9888;&#65039; ${typeName.charAt(0).toUpperCase() + typeName.slice(1)} "${pageName}" already exists on Wikimedia Commons</strong>, possibly for a different event (e.g., a conflicting abbreviation). If this is a conflict, scroll up and adjust the event name or abbreviation before creating. <a href="${info.url}" target="_blank" rel="noopener">View existing ${typeName} &rarr;</a>`;
+            warningEl.innerHTML = `${heading}, possibly for a different event (e.g., a conflicting abbreviation). If this is a conflict, scroll up and adjust the event name or abbreviation before creating. ${viewLink}`;
         }
 
         warningEl.style.display = 'block';
@@ -232,14 +231,12 @@ ${parentCategoryLinks}
         const templateCode = generateTemplateCode(title, categoryName, accentColor);
         const categoryCode = generateCategoryCode(templateName, selectedCategories, eventYear, eventCountry);
 
-        // Display results
         DOM.templateName.textContent = `Template:${templateName}`;
         DOM.templateCode.textContent = templateCode;
         DOM.categoryName.textContent = `Category:${categoryName}`;
         DOM.categoryCode.textContent = categoryCode;
         DOM.templateExample.textContent = `{{${templateName}}}`;
 
-        // Generate Commons create links
         DOM.createTemplateLink.href = createCommonsUrl('Template', templateName);
         DOM.createCategoryLink.href = createCommonsUrl('Category', categoryName);
 
@@ -247,7 +244,6 @@ ${parentCategoryLinks}
         DOM.outputSection.style.display = 'block';
         DOM.outputSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-        // Clear any previous warnings and show loading state
         DOM.templateExistsWarning.style.display = 'none';
         DOM.categoryExistsWarning.style.display = 'none';
         DOM.submitBtn.textContent = 'Checking Commons…';
@@ -264,7 +260,7 @@ ${parentCategoryLinks}
         }
     };
 
-    // Copy to clipboard functionality
+    // Copy to clipboard
     DOM.copyTemplate.addEventListener('click', () => {
         copyToClipboard(DOM.templateCode.textContent, DOM.copyTemplate);
     });

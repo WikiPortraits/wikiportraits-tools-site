@@ -7,6 +7,7 @@ Static tools for WikiPortraits contributors, deployed as a simple site served fr
 - **Home** (`/index.html`): landing page for tools.
 - **Onboarding Wizard** (`/onboard`): multi-step flow to onboard new contributors to Wikimedia Commons.
 - **Template Generator** (`/template-generator`): form-flow to help users create new WikiPortraits templates and categories.
+- **Image History** (`/image-history`): shows how a Wikipedia article's lead image changed over a time range, and can build before-and-after graphics for social media.
 
 Shared UI lives under `shared/` (global styles + reusable components). Images and branding assets are in `img/`.
 

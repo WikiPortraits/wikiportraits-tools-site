@@ -92,7 +92,6 @@ class TemplateEngine {
             const isChecked = data.tasks && data.tasks[taskId];
 
             element.className = `checklist-item ${isChecked ? 'completed' : ''}`;
-            element.setAttribute('data-task-id', taskId);
 
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';

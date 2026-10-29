@@ -119,11 +119,10 @@ const getStepStatus = (stepIndex) => {
 const getVisibleSteps = () => steps.filter(step => step.shouldShow());
 
 const findNextVisibleStep = (fromIndex, direction = 1) => {
-    let index = fromIndex + direction;
-    while (index >= 0 && index < steps.length && !steps[index].shouldShow()) {
-        index += direction;
+    for (let index = fromIndex + direction; index >= 0 && index < steps.length; index += direction) {
+        if (steps[index].shouldShow()) return index;
     }
-    return index >= 0 && index < steps.length ? index : null;
+    return null;
 };
 
 const goToStep = (index) => {
@@ -358,14 +357,14 @@ const setupEventListeners = () => {
     DOM.resetButton.addEventListener('click', resetState);
 
     document.addEventListener('keydown', (e) => {
-        if (e.altKey) {
-            if (e.key === 'ArrowRight') {
-                e.preventDefault();
-                nextStep();
-            } else if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                prevStep();
-            }
+        if (!e.altKey) return;
+
+        if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            nextStep();
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            prevStep();
         }
     });
 };

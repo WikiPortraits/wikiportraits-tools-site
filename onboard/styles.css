@@ -21,7 +21,7 @@
 .onboard-step:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
 }
 
 .onboard-step__icon {
@@ -34,14 +34,14 @@
     align-items: center;
     justify-content: center;
     font-weight: 600;
-    transition: background 0.2s, color 0.2s, transform 0.2s;
+    transition: background var(--transition), color var(--transition), transform var(--transition);
 }
 
 .onboard-step__label {
     font-size: 0.75rem;
     text-align: center;
     color: var(--text-muted);
-    transition: color 0.2s;
+    transition: color var(--transition);
 }
 
 .onboard-step--active .onboard-step__icon {
@@ -84,17 +84,12 @@
     text-decoration: line-through;
 }
 
-.onboard-step--skipped.onboard-step--completed .onboard-step__icon {
-    background: var(--border-light);
-    color: var(--text-muted);
+.onboard-step--skipped .onboard-step__label {
+    text-decoration: line-through;
 }
 
 .onboard-step--skipped.onboard-step--completed .onboard-step__label {
     color: var(--text-muted);
-}
-
-.onboard-step--skipped .onboard-step__label {
-    text-decoration: line-through;
 }
 
 /* Content */
@@ -104,10 +99,6 @@
 
 .step-content {
     animation: fadeIn 0.3s ease-in;
-}
-
-.step-content.active {
-    display: block;
 }
 
 .step-title {
@@ -139,12 +130,11 @@
     cursor: pointer;
     text-align: center;
     background: white;
-    transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    transition: border-color var(--transition), background var(--transition);
 }
 
 .path-option:hover {
     border-color: var(--primary);
-    transform: translateY(-2px);
 }
 
 .path-option:focus-visible {
@@ -154,7 +144,7 @@
 
 .path-option.selected {
     border-color: var(--primary);
-    background: #e8f0fe;
+    background: var(--primary-light);
 }
 
 .path-option__icon {
@@ -188,7 +178,7 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: white;
-    transition: background 0.2s, border-color 0.2s;
+    transition: background var(--transition), border-color var(--transition);
 }
 
 .checklist-item:hover {
@@ -205,7 +195,7 @@
 .checklist-item label {
     cursor: pointer;
     flex: 1;
-    transition: color 0.2s;
+    transition: color var(--transition);
 }
 
 .checklist-item.completed {
